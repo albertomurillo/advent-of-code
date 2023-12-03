@@ -65,7 +65,7 @@ def part2(data: List[str]) -> int:
 
 def main():
     with open("day2.txt", encoding="utf-8") as f:
-        data = f.readlines()
+        data = f.read().splitlines()
 
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

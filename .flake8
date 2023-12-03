@@ -3,4 +3,6 @@ max-complexity = 10
 max-line-length = 88
 ignore =
     # line too long
-    E501
+    E501,
+    # whitespace before ':'
+    E203,
