@@ -2,21 +2,36 @@ from typing import List
 from dataclasses import dataclass
 import math
 
+Milliseconds = int
+Millimeters = int
+
 
 @dataclass
 class Race:
-    time: int
-    distance: int
+    time: Milliseconds
+    record: Millimeters
 
-    # Brute force :(
     def ways_to_win(self) -> int:
-        won = 0
-        for speed in range(1, self.time):
-            remaining_time = self.time - speed
-            distance = speed * remaining_time
-            if distance > self.distance:
-                won += 1
-        return won
+        # https://en.wikipedia.org/wiki/Quadratic_formula
+        #
+        # t = travel time
+        # b = race time
+        # x = button time
+        # c = distance
+        #
+        # t = b - x
+        # c = t * x
+        #
+        # c = (b - x) * x
+        # c = bx - x^2
+        # x^2 - bx + c = 0
+
+        a = 1
+        b = -self.time
+        c = self.record
+        x1 = (-b + math.sqrt((b**2) - (4 * a * c))) / (2 * a)
+        x2 = (-b - math.sqrt((b**2) - (4 * a * c))) / (2 * a)
+        return math.ceil(x1) - math.floor(x2) - 1
 
 
 def part1(data: List[str]) -> int:
@@ -29,8 +44,8 @@ def part1(data: List[str]) -> int:
 
 def part2(data: List[str]) -> int:
     time = int("".join(data[0].split(":")[1].split()))
-    distance = int("".join(data[1].split(":")[1].split()))
-    race = Race(time, distance)
+    record = int("".join(data[1].split(":")[1].split()))
+    race = Race(time, record)
 
     return race.ways_to_win()
 
