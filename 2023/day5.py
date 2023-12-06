@@ -1,95 +1,139 @@
+from __future__ import annotations
+
+from collections import OrderedDict
 from dataclasses import dataclass
-from typing import Dict, List, Optional
-import itertools
+from typing import List, Optional, Tuple
+
+
+@dataclass
+class Range:
+    start: int
+    end: int
+
+    def is_superset(self, other: Range) -> bool:
+        return self.start <= other.start <= other.end <= self.end
+
+    def is_subset(self, other: Range) -> bool:
+        return other.start <= self.start <= self.end <= other.end
+
+    def overlaps(self, other: Range) -> bool:
+        return max(self, other).start <= min(self, other).end
+
+    def intersection(self, other: Range) -> Tuple[Range, Range, Range]:
+        if self.start > other.end:
+            return (Range(0, 0), Range(0, 0), self)
+
+        if self.end < other.start:
+            return (self, Range(0, 0), Range(0, 0))
+
+        before = Range(0, 0)
+        if self.start < other.start:
+            before = Range(self.start, other.start)
+
+        inter = Range(max(self.start, other.start), min(self.end, other.end))
+
+        after = Range(0, 0)
+        if self.end > other.end:
+            after = Range(other.end, self.end)
+
+        return (before, inter, after)
+
+    def offset(self, item: int) -> int:
+        return item - self.start
+
+    def __bool__(self) -> bool:
+        return not self.start == self.end == 0
+
+    def __contains__(self, item):
+        return self.start <= item <= self.end
+
+    def __len__(self):
+        return self.end - self.start
+
+    def __lt__(self, other):
+        return (self.start, self.end) < (other.start, other.end)
 
 
 @dataclass
 class AlmanacMap:
-    destination: int
-    source: int
-    size: int
+    source: Range
+    dest: Range
 
-    def dest_from_source(self, source: int) -> Optional[int]:
-        start = self.source
-        end = self.source + self.size
-        if start <= source <= end:
-            return self.destination + (source - self.source)
-        return None
+    def to_dest(self, source: int) -> Optional[int]:
+        if source not in self.source:
+            return None
+        return self.dest.start + self.source.offset(source)
 
-    def source_from_dest(self, dest: int) -> Optional[int]:
-        start = self.destination
-        end = self.destination + self.size
-        if start <= dest <= end:
-            return self.source + (dest - self.destination)
-        return None
+    def to_dest_range(self, source: Range) -> Optional[Range]:
+        return Range(
+            self.dest.start + self.source.offset(source.start),
+            self.dest.start + self.source.offset(source.end),
+        )
 
 
 class Almanac:
     def __init__(self, data: List[str]):
-        self.seed_to_soil: List[AlmanacMap] = []
-        self.soil_to_fertilizer: List[AlmanacMap] = []
-        self.fertilizer_to_water: List[AlmanacMap] = []
-        self.water_to_light: List[AlmanacMap] = []
-        self.light_to_temperature: List[AlmanacMap] = []
-        self.temperature_to_humidity: List[AlmanacMap] = []
-        self.humidity_to_location: List[AlmanacMap] = []
+        self.maps: OrderedDict[str, List[AlmanacMap]] = OrderedDict(
+            (
+                ("seed-to-soil", []),
+                ("soil-to-fertilizer", []),
+                ("fertilizer-to-water", []),
+                ("water-to-light", []),
+                ("light-to-temperature", []),
+                ("temperature-to-humidity", []),
+                ("humidity-to-location", []),
+            )
+        )
 
-        src_to_dest_map_list = None
-        src_to_dest_map_lists: Dict[str, List[AlmanacMap]] = {
-            "seed-to-soil map": self.seed_to_soil,
-            "soil-to-fertilizer map": self.soil_to_fertilizer,
-            "fertilizer-to-water map": self.fertilizer_to_water,
-            "water-to-light map": self.water_to_light,
-            "light-to-temperature map": self.light_to_temperature,
-            "temperature-to-humidity map": self.temperature_to_humidity,
-            "humidity-to-location map": self.humidity_to_location,
-        }
-
+        map_ = None
         for line in data[1:]:
             if not line:
-                src_to_dest_map_list = None
+                map_ = None
                 continue
 
-            if src_to_dest_map_list is None:
-                src_to_dest_map_list = src_to_dest_map_lists[line.split(":")[0]]
+            if map_ is None:
+                map_ = self.maps[line.split(" map:")[0]]
                 continue
 
             dest, src, size = (int(x) for x in line.split())
-            src_to_dest_map_list.append(AlmanacMap(dest, src, size))
+            map_.append(
+                AlmanacMap(
+                    source=Range(src, src + size),
+                    dest=Range(dest, dest + size),
+                )
+            )
 
     def seed_to_location(self, seed: int) -> int:
-        soil = self.find_dest_in_maps(self.seed_to_soil, seed)
-        fertilizer = self.find_dest_in_maps(self.soil_to_fertilizer, soil)
-        water = self.find_dest_in_maps(self.fertilizer_to_water, fertilizer)
-        light = self.find_dest_in_maps(self.water_to_light, water)
-        temp = self.find_dest_in_maps(self.light_to_temperature, light)
-        humidity = self.find_dest_in_maps(self.temperature_to_humidity, temp)
-        loc = self.find_dest_in_maps(self.humidity_to_location, humidity)
-        return loc
+        source = seed
+        for maps in self.maps.values():
+            source = self.lookup(maps, source)
+        return source
 
-    def location_to_seed(self, loc: int) -> int:
-        humidity = self.find_source_in_maps(self.humidity_to_location, loc)
-        temp = self.find_source_in_maps(self.temperature_to_humidity, humidity)
-        light = self.find_source_in_maps(self.light_to_temperature, temp)
-        water = self.find_source_in_maps(self.water_to_light, light)
-        fertilizer = self.find_source_in_maps(self.fertilizer_to_water, water)
-        soil = self.find_source_in_maps(self.soil_to_fertilizer, fertilizer)
-        seed = self.find_source_in_maps(self.seed_to_soil, soil)
-        return seed
+    def seeds_to_locations(self, seeds: Range) -> List[Range]:
+        unprocessed = [seeds]
+        for maps in self.maps.values():
+            matched = []
+            for map_ in maps:
+                unmatched = []
+                while unprocessed:
+                    source_range = unprocessed.pop()
+                    before, intersection, after = source_range.intersection(map_.source)
+                    if before:
+                        unmatched.append(before)
+                    if intersection:
+                        matched.append(map_.to_dest_range(intersection))
+                    if after:
+                        unmatched.append(after)
+                unprocessed = unmatched
+            unprocessed = matched + unmatched
+        return unprocessed
 
-    def find_dest_in_maps(self, maps: List[AlmanacMap], source: int) -> int:
-        for m in maps:
-            dest = m.dest_from_source(source)
+    def lookup(self, maps: List[AlmanacMap], source: int) -> int:
+        for map_ in maps:
+            dest = map_.to_dest(source)
             if dest is not None:
                 return dest
         return source
-
-    def find_source_in_maps(self, maps: List[AlmanacMap], dest: int) -> int:
-        for m in maps:
-            source = m.source_from_dest(dest)
-            if source is not None:
-                return source
-        return dest
 
 
 def part1(data: List[str]) -> int:
@@ -101,21 +145,18 @@ def part1(data: List[str]) -> int:
 def part2(data: List[str]) -> int:
     almanac = Almanac(data)
 
-    seed_ranges = []
+    seed_ranges: List[Range] = []
     range_data = data[0].split(": ")[1].split()
     for i in range(0, len(range_data), 2):
         start = int(range_data[i])
         size = int(range_data[i + 1])
-        seed_ranges.append(range(start, start + size))
-    seed_ranges.sort(key=lambda x: x.start)
+        seed_ranges.append(Range(start, start + size))
 
-    # Brute force :(
-    # python3 day5.py  122.10s user 0.05s system 98% cpu 2:03.41 total
-    for location in itertools.count():
-        seed = almanac.location_to_seed(location)
-        for seed_range in seed_ranges:
-            if seed in seed_range:
-                return location
+    location_ranges: List[Range] = []
+    for seed_range in seed_ranges:
+        location_ranges.extend(almanac.seeds_to_locations(seed_range))
+
+    return min(location_ranges).start
 
 
 def main():
