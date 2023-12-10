@@ -1,0 +1,5 @@
+[run]
+branch = True
+source = 2023
+omit =
+    *_test.py

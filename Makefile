@@ -5,7 +5,7 @@ format: deps
 	poetry run black .
 
 test: deps
-	poetry run pytest --cov
+	poetry run pytest 2023 --cov
 
 coverage: test
 	poetry run coverage html
