@@ -1,6 +1,6 @@
 from collections import deque
-from typing import List
 from itertools import pairwise
+from typing import List
 
 
 class History:
