@@ -1,4 +1,5 @@
 import inspect
+
 from day11 import part1, part2
 
 data = inspect.cleandoc(
