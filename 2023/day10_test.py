@@ -1,10 +1,12 @@
 import inspect
 
-from day10 import part1, part2
+import pytest
+from day10 import PipeMaze, part1, part2_raycasting, part2_shoelace
 
 
-def test_part1():
-    data = inspect.cleandoc(
+@pytest.fixture(name="maze_1")
+def fixture_maze_1():
+    return inspect.cleandoc(
         """
         ..F7.
         .FJ|.
@@ -13,11 +15,11 @@ def test_part1():
         LJ...
         """
     ).splitlines()
-    assert part1(data) == 8
 
 
-def test_part2():
-    data = inspect.cleandoc(
+@pytest.fixture(name="maze_2")
+def fixture_maze_2():
+    return inspect.cleandoc(
         """
         FF7FSF7F7F7F7F7F---7
         L|LJ||||||||||||F--J
@@ -31,4 +33,18 @@ def test_part2():
         L7JLJL-JLJLJL--JLJ.L
         """
     ).splitlines()
-    assert part2(data) == 10
+
+
+def test_part1(maze_1):
+    maze = PipeMaze([list(line) for line in maze_1])
+    assert part1(maze) == 8
+
+
+def test_part2(maze_2):
+    maze = PipeMaze([list(line) for line in maze_2])
+    assert part2_raycasting(maze) == 10
+
+
+def test_part2_shoelace(maze_2):
+    maze = PipeMaze([list(line) for line in maze_2])
+    assert part2_shoelace(maze) == 10

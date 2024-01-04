@@ -51,16 +51,16 @@ class PipeMaze:
         return Point(-1, -1)
 
     @cached_property
-    def loop(self) -> Set[Point]:
-        loop: Set[Point] = set()
+    def loop(self) -> List[Point]:
+        loop: List[Point] = []
 
         start = self.start
         prev, turtle = start, self._incoming(start).pop()
-        loop.add(prev)
-        loop.add(turtle)
+        loop.append(prev)
+        loop.append(turtle)
         while turtle != start:
             prev, turtle = self._step(prev, turtle)
-            loop.add(turtle)
+            loop.append(turtle)
 
         return loop
 
@@ -69,14 +69,15 @@ class PipeMaze:
         # Use the ray casting algorithm
         # https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
         insides: Set[Point] = set()
+        loop = set(self.loop)
         for i, row in enumerate(self._data):
             outside = True
             for j, _ in enumerate(row):
                 p = Point(i, j)
-                if p not in self.loop and not outside:
+                if p not in loop and not outside:
                     insides.add(p)
                     continue
-                if p in self.loop:
+                if p in loop:
                     if self[p] in "S|JL":
                         outside = not outside
         return insides
@@ -117,22 +118,36 @@ class PipeMaze:
         return self._data[key.row][key.col]
 
 
-def part1(data: List[str]) -> int:
-    maze = PipeMaze([list(line) for line in data])
+def part1(maze: PipeMaze) -> int:
     return len(maze.loop) // 2
 
 
-def part2(data: List[str]) -> int:
-    maze = PipeMaze([list(line) for line in data])
+def part2_raycasting(maze: PipeMaze) -> int:
     return len(maze.insides)
+
+
+def part2_shoelace(maze: PipeMaze) -> int:
+    # https://en.wikipedia.org/wiki/Shoelace_formula
+    x = [v.col for v in maze.loop]
+    y = [v.row for v in maze.loop]
+    a = abs(sum(x[i - 1] * y[i] - x[i] * y[i - 1] for i in range(len(maze.loop)))) / 2
+
+    # https://en.wikipedia.org/wiki/Pick's_theorem
+    b = len(maze.loop)
+    i = a + 1 - b // 2
+
+    return int(i)
 
 
 def main():
     with open("day10.txt", encoding="utf-8") as f:
         data = f.read().splitlines()
 
-    print(part1(data))
-    print(part2(data))
+    maze = PipeMaze([list(line) for line in data])
+
+    print(part1(maze))
+    print(part2_raycasting(maze))
+    print(part2_shoelace(maze))
 
 
 if __name__ == "__main__":
