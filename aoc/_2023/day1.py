@@ -4,16 +4,12 @@ from typing import List
 
 def part1(data: List[str]) -> int:
     result = 0
-    for line in data:
-        for c in line:
-            if c.isnumeric():
-                result += int(c) * 10
-                break
+    for line in data.splitlines():
+        c = next((x for x in line if x.isnumeric()))
+        result += int(c) * 10
 
-        for c in reversed(line):
-            if c.isnumeric():
-                result += int(c)
-                break
+        c = next((x for x in reversed(line) if x.isnumeric()))
+        result += int(c)
 
     return result
 
