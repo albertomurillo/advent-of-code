@@ -1,5 +1,4 @@
 from functools import cached_property
-from typing import List
 
 
 class Card:
@@ -18,14 +17,14 @@ class Card:
         return int(2 ** (self.matches - 1))
 
 
-def part1(data: List[str]) -> int:
-    cards = (Card(line) for line in data)
+def part1(data: str) -> int:
+    cards = (Card(line) for line in data.splitlines())
     return sum(card.points for card in cards)
 
 
-def part2(data: List[str]) -> int:
-    cards = (Card(line) for line in data)
-    counter = [1] * len(data)
+def part2(data: str) -> int:
+    cards = [Card(line) for line in data.splitlines()]
+    counter = [1] * len(cards)
 
     for i, card in enumerate(cards):
         for j in range(card.matches):
@@ -36,7 +35,7 @@ def part2(data: List[str]) -> int:
 
 def main():
     with open("day4.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

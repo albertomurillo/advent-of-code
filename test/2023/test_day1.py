@@ -11,7 +11,7 @@ def test_part1():
         a1b2c3d4e5f
         treb7uchet
         """
-    ).splitlines()
+    )
     assert part1(data) == 142
 
 
@@ -26,5 +26,5 @@ def test_part2():
         zoneight234
         7pqrstsixteen
         """
-    ).splitlines()
+    )
     assert part2(data) == 281

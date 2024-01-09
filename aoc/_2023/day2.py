@@ -44,14 +44,14 @@ def parse_hand(data: str):
     return cubes
 
 
-def part1(data: List[str]) -> int:
+def part1(data: str) -> int:
     bag = Cubes(blue=14, green=13, red=12)
-    games = (parse_game(line) for line in data)
+    games = (parse_game(line) for line in data.splitlines())
     return sum(game.id for game in games if game.is_possible_with_bag(bag))
 
 
-def part2(data: List[str]) -> int:
-    games = (parse_game(line) for line in data)
+def part2(data: str) -> int:
+    games = (parse_game(line) for line in data.splitlines())
     cubes = (
         Cubes(
             blue=max(hand.blue for hand in game.hands),
@@ -65,7 +65,7 @@ def part2(data: List[str]) -> int:
 
 def main():
     with open("day2.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

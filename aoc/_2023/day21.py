@@ -1,25 +1,11 @@
 from collections import deque
-from typing import List, Tuple
 
-N = (-1, 0)
-S = (1, 0)
-E = (0, 1)
-W = (0, -1)
+from aoc import E, Grid, N, S, W, as_matrix
 
 
-def find_s(data: List[str]) -> Tuple[int, int]:
-    for i, row in enumerate(data):
-        for j, c in enumerate(row):
-            if data[i][j] == "S":
-                return i, j
-
-
-def in_range(point: Tuple[int, int], data: List[str]) -> bool:
-    return 0 <= point[0] < len(data) and 0 <= point[1] < len(data[0])
-
-
-def part1(data: List[str], steps: int) -> int:
-    s = find_s(data)
+def part1(data: str, steps: int) -> int:
+    grid = Grid(as_matrix(data))
+    s = next(p for p, v in grid.items() if v == "S")
     q = deque([s])
 
     visited = set()
@@ -29,12 +15,8 @@ def part1(data: List[str], steps: int) -> int:
             point = q.pop()
             visited.add(point)
             for d in (N, S, E, W):
-                np = (point[0] + d[0], point[1] + d[1])
-                if (
-                    in_range(np, data)
-                    and data[np[0]][np[1]] != "#"
-                    and np not in visited
-                ):
+                np = point.step(d)
+                if grid[np] != "#" and np not in visited:
                     q.appendleft(np)
                     visited.add(np)
 
@@ -43,7 +25,7 @@ def part1(data: List[str], steps: int) -> int:
 
 def main():
     with open("day21.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(part1(data, 64))
 

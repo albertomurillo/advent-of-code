@@ -118,8 +118,8 @@ def parse_input(data: List[str]) -> Dict[str, Module]:
     return module_map
 
 
-def part1(data: List[str]) -> int:
-    modules = parse_input(data)
+def part1(data: str) -> int:
+    modules = parse_input(data.splitlines())
     button = Button("button", ["broadcaster"])
     q = Queue()
 
@@ -136,7 +136,7 @@ def part1(data: List[str]) -> int:
 
 def main():
     with open("day20.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(part1(data))
 

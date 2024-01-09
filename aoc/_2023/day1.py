@@ -1,8 +1,7 @@
 import re
-from typing import List
 
 
-def part1(data: List[str]) -> int:
+def part1(data: str) -> int:
     result = 0
     for line in data.splitlines():
         c = next((x for x in line if x.isnumeric()))
@@ -14,7 +13,7 @@ def part1(data: List[str]) -> int:
     return result
 
 
-def part2(data: List[str]) -> int:
+def part2(data: str) -> int:
     values = {
         # Forward values
         "one": 1,
@@ -50,7 +49,7 @@ def part2(data: List[str]) -> int:
     forward_pattern = "one|two|three|four|five|six|seven|eight|nine|1|2|3|4|5|6|7|8|9"
     backward_pattern = "9|8|7|6|5|4|3|2|1|enin|thgie|neves|xis|evif|ruof|eerht|owt|eno"
     result = 0
-    for line in data:
+    for line in data.splitlines():
         m = re.search(forward_pattern, line)
         result += values[m[0]] * 10
 
@@ -62,7 +61,7 @@ def part2(data: List[str]) -> int:
 
 def main():
     with open("day1.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

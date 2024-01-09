@@ -2,56 +2,9 @@ from __future__ import annotations
 
 from collections import OrderedDict
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
-
-@dataclass
-class Range:
-    start: int
-    end: int
-
-    def is_superset(self, other: Range) -> bool:
-        return self.start <= other.start <= other.end <= self.end
-
-    def is_subset(self, other: Range) -> bool:
-        return other.start <= self.start <= self.end <= other.end
-
-    def overlaps(self, other: Range) -> bool:
-        return max(self, other).start <= min(self, other).end
-
-    def intersection(self, other: Range) -> Tuple[Range, Range, Range]:
-        if self.start > other.end:
-            return (Range(0, 0), Range(0, 0), self)
-
-        if self.end < other.start:
-            return (self, Range(0, 0), Range(0, 0))
-
-        before = Range(0, 0)
-        if self.start < other.start:
-            before = Range(self.start, other.start)
-
-        inter = Range(max(self.start, other.start), min(self.end, other.end))
-
-        after = Range(0, 0)
-        if self.end > other.end:
-            after = Range(other.end, self.end)
-
-        return (before, inter, after)
-
-    def offset(self, item: int) -> int:
-        return item - self.start
-
-    def __bool__(self) -> bool:
-        return not self.start == self.end == 0
-
-    def __contains__(self, item):
-        return self.start <= item <= self.end
-
-    def __len__(self):
-        return self.end - self.start
-
-    def __lt__(self, other):
-        return (self.start, self.end) < (other.start, other.end)
+from aoc import Range
 
 
 @dataclass
@@ -67,7 +20,7 @@ class AlmanacMap:
     def to_dest_range(self, source: Range) -> Optional[Range]:
         return Range(
             self.dest.start + self.source.offset(source.start),
-            self.dest.start + self.source.offset(source.end),
+            self.dest.start + self.source.offset(source.stop),
         )
 
 
@@ -136,17 +89,17 @@ class Almanac:
         return source
 
 
-def part1(data: List[str]) -> int:
-    almanac = Almanac(data)
-    seeds = [int(x) for x in data[0].split(": ")[1].split()]
+def part1(data: str) -> int:
+    almanac = Almanac(data.splitlines())
+    seeds = [int(x) for x in data.splitlines()[0].split(": ")[1].split()]
     return min(almanac.seed_to_location(seed) for seed in seeds)
 
 
-def part2(data: List[str]) -> int:
-    almanac = Almanac(data)
+def part2(data: str) -> int:
+    almanac = Almanac(data.splitlines())
 
     seed_ranges: List[Range] = []
-    range_data = data[0].split(": ")[1].split()
+    range_data = data.splitlines()[0].split(": ")[1].split()
     for i in range(0, len(range_data), 2):
         start = int(range_data[i])
         size = int(range_data[i + 1])
@@ -161,7 +114,7 @@ def part2(data: List[str]) -> int:
 
 def main():
     with open("day5.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

@@ -10,7 +10,7 @@ data = inspect.cleandoc(
     %c -> inv
     &inv -> a
     """
-).splitlines()
+)
 
 
 def test_part1():

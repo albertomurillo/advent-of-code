@@ -38,7 +38,7 @@ data = inspect.cleandoc(
     60 56 37
     56 93 4
     """
-).splitlines()
+)
 
 
 def test_part1():

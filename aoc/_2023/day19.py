@@ -7,8 +7,10 @@ from copy import copy
 from dataclasses import dataclass
 from typing import List, Tuple
 
+from aoc import Range
 
-class PartRange(dict[str, range]):
+
+class PartRange(dict[str, Range]):
     @property
     def combinations(self) -> int:
         return math.prod((len(x) for x in self.values()))
@@ -53,55 +55,45 @@ class Workflows(dict[str, Workflow]):
 
         return workflow.name == "A"
 
-    def accept_range(self, r: PartRange) -> List[PartRange]:
+    def accept_range(self, pr: PartRange) -> List[PartRange]:
         accepted: List[PartRange] = []
 
-        q = [("in", r)]
+        q = [("in", pr)]
         while q:
-            wn, r = q.pop()
-            w = self[wn]
+            workflow_name, pr = q.pop()
+            workflow = self[workflow_name]
 
-            if w.name == "A":
-                accepted.append(r)
+            if workflow.name == "A":
+                accepted.append(pr)
                 continue
 
-            if w.name == "R":
+            if workflow.name == "R":
                 continue
 
-            for rule in w.rules:
-                if (rule.op == "<" and rule.value - 1 not in r[rule.field]) or (
-                    rule.op == ">" and rule.value + 1 not in r[rule.field]
+            for rule in workflow.rules:
+                value = rule.value
+
+                if (rule.op == "<" and value - 1 not in pr[rule.field]) or (
+                    rule.op == ">" and value + 1 not in pr[rule.field]
                 ):
                     continue
 
-                r1, r2 = self._bisect_range(r[rule.field], rule.value, rule.op)
-                if rule.op == ">":
-                    r1, r2 = r2, r1
-                if r1:
-                    r[rule.field] = r1
-                    q.append((rule.dest, copy(r)))
-                if r2:
-                    r[rule.field] = r2
-                    q.append((w.name, copy(r)))
+                if rule.op == "<":
+                    r1, _, r2 = pr[rule.field].intersection(Range(value, value))
+                else:
+                    r2, _, r1 = pr[rule.field].intersection(Range(value + 1, value + 1))
+
+                pr[rule.field] = r1
+                q.append((rule.dest, copy(pr)))
+
+                pr[rule.field] = r2
+                q.append((workflow.name, copy(pr)))
+
                 break
             else:
-                q.append((w.default, copy(r)))
+                q.append((workflow.default, copy(pr)))
 
         return accepted
-
-    def _bisect_range(self, r: range, value: int, op: str) -> Tuple[range, range]:
-        if op == "<":
-            if value <= r.start:
-                return (range(0, 0), r)
-            if value >= r.stop:
-                return (r, range(0, 0))
-            return (range(r.start, value), range(value, r.stop))
-
-        if value < r.start:
-            return (range(0, 0), r)
-        if value >= r.stop - 1:
-            return (r, range(0, 0))
-        return (range(r.start, value + 1), range(value + 1, r.stop))
 
 
 def parse_input(data: str) -> Tuple[Workflows, List[Part]]:
@@ -155,12 +147,12 @@ def part1(data: str) -> int:
 
 def part2(data: str) -> int:
     workflows, _ = parse_input(data)
-    ranges = workflows.accept_range(PartRange({k: range(1, 4001) for k in "xmas"}))
+    ranges = workflows.accept_range(PartRange({k: Range(1, 4001) for k in "xmas"}))
     return sum(r.combinations for r in ranges)
 
 
 def main():
-    with open("day19.txt", encoding="utf-8") as f:
+    with open("../../inputs/2023/day19.txt", encoding="utf-8") as f:
         data = f.read()
 
     print(part1(data))

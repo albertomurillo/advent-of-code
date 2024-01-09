@@ -1,37 +1,21 @@
-from typing import Dict, Tuple
+from typing import Dict
 
-NORTH = (-1, 0)
+from aoc import Direction, Grid, GridPoint, N, as_matrix
 
 
-class Platform:
-    def __init__(self, data: str):
-        self.data = [list(line) for line in data.splitlines()]
-
-    @property
-    def m(self) -> int:
-        return len(self.data)
-
-    @property
-    def n(self) -> int:
-        return len(self.data[0])
-
-    def rotate(self) -> None:
-        self.data = [list(x) for x in (zip(*self.data[::-1]))]
-
+class Platform(Grid):
     def tilt_north(self):
-        for i, row in enumerate(self.data):
-            for j, c in enumerate(row):
-                if c == "O":
-                    self._sink(i, j, NORTH)
+        for p in (p for p, v in self.items() if v == "O"):
+            self._sink(p, N)
 
-    def _sink(self, i: int, j: int, direction: Tuple[int, int]):
-        r, c = i + direction[0], j + direction[1]
-        if not (0 <= r < self.m and 0 <= c < self.n):
+    def _sink(self, p: GridPoint, direction: Direction):
+        np = p.step(direction)
+        if np not in self:
             return
-        if self.data[r][c] != ".":
+        if self[np] != ".":
             return
-        self.data[i][j], self.data[r][c] = self.data[r][c], self.data[i][j]
-        self._sink(r, c, direction)
+        self[p], self[np] = self[np], self[p]
+        self._sink(np, direction)
 
     def load(self):
         total = 0
@@ -46,21 +30,15 @@ class Platform:
             self.tilt_north()
             self.rotate()
 
-    def __str__(self) -> str:
-        return "\n".join("".join(line) for line in self.data)
-
-    def __hash__(self) -> int:
-        return hash(str(self))
-
 
 def part1(data: str):
-    platform = Platform(data)
+    platform = Platform(as_matrix(data))
     platform.tilt_north()
     return platform.load()
 
 
 def part2(data: str):
-    platform = Platform(data)
+    platform = Platform(as_matrix(data))
     cycles = 1_000_000_000
 
     seen: Dict[int, int] = {}

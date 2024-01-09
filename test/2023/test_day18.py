@@ -19,7 +19,7 @@ data = inspect.cleandoc(
     L 2 (#015232)
     U 2 (#7a21e3)
     """
-).splitlines()
+)
 
 
 def test_part1():

@@ -1,16 +1,10 @@
 from collections import defaultdict
 from typing import Dict, List, Set, Tuple
 
-Tile = Tuple[int, int]
-Direction = Tuple[int, int]
-
-N = (-1, 0)
-S = (1, 0)
-E = (0, 1)
-W = (0, -1)
+from aoc import Direction, E, Grid, GridPoint, N, S, W, as_matrix
 
 
-class Contraption:
+class Contraption(Grid):
     reflections = {
         ".": {N: [N], S: [S], E: [E], W: [W]},
         "|": {N: [N], S: [S], E: [N, S], W: [N, S]},
@@ -19,28 +13,14 @@ class Contraption:
         "\\": {N: [W], S: [E], E: [S], W: [N]},
     }
 
-    def __init__(self, data: List[str]):
-        self.data = data
-
-    @property
-    def m(self) -> int:
-        return len(self.data)
-
-    @property
-    def n(self) -> int:
-        return len(self.data[0])
-
-    def __getitem__(self, key: Tile) -> str:
-        return self.data[key[0]][key[1]]
-
-    def energized(self, start: Tile, direction: Direction) -> int:
-        energized: Dict[Tile, Set[Direction]] = defaultdict(set)
-        beams: List[Tuple[Tile, Direction]] = [(start, direction)]
+    def energized(self, start: GridPoint, direction: Direction) -> int:
+        energized: Dict[GridPoint, Set[Direction]] = defaultdict(set)
+        beams: List[Tuple[GridPoint, Direction]] = [(start, direction)]
 
         while beams:
             tile, direction = beams.pop()
 
-            if not (0 <= tile[0] < self.m and 0 <= tile[1] < self.n):
+            if tile not in self:
                 continue
 
             if direction in energized[tile]:
@@ -49,35 +29,35 @@ class Contraption:
             energized[tile].add(direction)
 
             for new_dir in self.reflections[self[tile]][direction]:
-                beams.append(((tile[0] + new_dir[0], tile[1] + new_dir[1]), new_dir))
+                beams.append((tile.step(new_dir), new_dir))
 
         return len(energized)
 
 
 def part1(data: List[str]):
-    contraption = Contraption(data)
-    return contraption.energized((0, 0), E)
+    contraption = Contraption(as_matrix(data))
+    return contraption.energized(GridPoint(0, 0), E)
 
 
 def part2(data: List[str]):
-    contraption = Contraption(data)
+    contraption = Contraption(as_matrix(data))
 
     result = 0
 
     for i in range(contraption.m):
-        result = max(result, contraption.energized((i, 0), E))
-        result = max(result, contraption.energized((i, contraption.n - 1), W))
+        result = max(result, contraption.energized(GridPoint(i, 0), E))
+        result = max(result, contraption.energized(GridPoint(i, contraption.n - 1), W))
 
     for i in range(contraption.n):
-        result = max(result, contraption.energized((0, i), S))
-        result = max(result, contraption.energized((contraption.m - 1, i), N))
+        result = max(result, contraption.energized(GridPoint(0, i), S))
+        result = max(result, contraption.energized(GridPoint(contraption.m - 1, i), N))
 
     return result
 
 
 def main():
     with open("day16.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(part1(data))
     print(part2(data))

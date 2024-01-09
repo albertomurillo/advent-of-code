@@ -3,45 +3,47 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set
+
+from aoc import Grid, GridPoint, as_matrix
 
 
 @dataclass
 class Number:
+    pos: GridPoint
+    length: int
     schematic: Schematic
-    row: int
-    col: int
-    len: int
 
     @cached_property
     def value(self) -> int:
-        return int(self.schematic.data[self.row][self.col : self.col + self.len])
+        return int(
+            "".join(
+                self.schematic.data[self.pos.row][
+                    self.pos.col : self.pos.col + self.length
+                ]
+            )
+        )
 
     @cached_property
-    def adjacent_positions(self) -> List[Tuple[int, int]]:
+    def neighbors(self) -> List[GridPoint]:
         positions = []
 
         # Add top and down positions
-        for col in range(self.col - 1, self.col + self.len + 1):
-            positions.append((self.row - 1, col))
-            positions.append((self.row + 1, col))
+        for col in range(self.pos.col - 1, self.pos.col + self.length + 1):
+            positions.append(GridPoint(self.pos.row - 1, col))
+            positions.append(GridPoint(self.pos.row + 1, col))
 
         # Add side positions
-        positions.append((self.row, self.col - 1))
-        positions.append((self.row, self.col + self.len))
+        positions.append(GridPoint(self.pos.row, self.pos.col - 1))
+        positions.append(GridPoint(self.pos.row, self.pos.col + self.length))
 
         # Filter invalid positions
-        return [
-            (row, col)
-            for row, col in positions
-            if -1 < row < self.schematic.m and -1 < col < self.schematic.n
-        ]
+        return [p for p in positions if p in self.schematic]
 
 
 @dataclass
 class Gear:
-    row: int
-    col: int
+    pos: GridPoint
     parts: List[Number]
 
     @cached_property
@@ -49,12 +51,7 @@ class Gear:
         return math.prod(x.value for x in self.parts)
 
 
-class Schematic:
-    def __init__(self, data: List[str]):
-        self.data = data
-        self.m = len(data)
-        self.n = len(data[0])
-
+class Schematic(Grid):
     @cached_property
     def numbers(self) -> List[Number]:
         numbers = []
@@ -69,41 +66,32 @@ class Schematic:
 
                 if reading and not c.isdecimal():
                     reading = False
-                    numbers.append(Number(self, row, start, i - start))
+                    numbers.append(Number(GridPoint(row, start), i - start, self))
 
             if reading:
-                numbers.append(Number(self, row, start, self.n - start))
+                numbers.append(Number(GridPoint(row, start), self.n - start, self))
 
         return numbers
 
     @cached_property
     def part_numbers(self) -> List[Number]:
-        return [
-            number
-            for number in self.numbers
-            if any(position in self.symbols for position in number.adjacent_positions)
-        ]
+        return [n for n in self.numbers if any(p in self.symbols for p in n.neighbors)]
 
     @cached_property
-    def symbols(self) -> Set[Tuple[int, int]]:
-        symbols = set()
-        for row, line in enumerate(self.data):
-            for col, c in enumerate(line):
-                if c not in {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}:
-                    symbols.add((row, col))
-        return symbols
+    def symbols(self) -> Set[GridPoint]:
+        return {p for p, v in self.items() if v not in "0123456789."}
 
     @cached_property
-    def gears(self) -> Dict[Tuple[int, int], Gear]:
-        gears: Dict[Tuple[int, int], Gear] = {}
+    def gears(self) -> Dict[GridPoint, Gear]:
+        gears: Dict[GridPoint, Gear] = {}
 
         for number in self.part_numbers:
-            for row, col in number.adjacent_positions:
-                if self.data[row][col] == "*":
-                    if (row, col) in gears:
-                        gears[(row, col)].parts.append(number)
+            for neighbor in number.neighbors:
+                if self[neighbor] == "*":
+                    if neighbor in gears:
+                        gears[neighbor].parts.append(number)
                     else:
-                        gears[(row, col)] = Gear(row, col, [number])
+                        gears[neighbor] = Gear(neighbor, [number])
 
         # A gear has to be adjacent to exactly two part numbers
         for k in list(gears.keys()):
@@ -114,18 +102,18 @@ class Schematic:
 
 
 def part1(data: List[str]) -> int:
-    schematic = Schematic(data)
+    schematic = Schematic(as_matrix(data))
     return sum(x.value for x in schematic.part_numbers)
 
 
 def part2(data: List[str]) -> int:
-    schematic = Schematic(data)
+    schematic = Schematic(as_matrix(data))
     return sum(gear.ratio for gear in schematic.gears.values())
 
 
 def main():
     with open("day3.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
+        data = f.read()
 
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")
