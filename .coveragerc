@@ -1,5 +1,5 @@
 [run]
 branch = True
-source = 2023
+source = aoc
 omit =
-    *_test.py
+    __init__.py

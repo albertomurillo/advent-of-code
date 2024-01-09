@@ -5,7 +5,7 @@ format: deps
 	poetry run black .
 
 test: deps
-	poetry run pytest 2023 --cov
+	poetry run pytest --cov
 
 coverage: test
 	poetry run coverage html
@@ -16,4 +16,4 @@ deps:
 
 lint: deps
 	poetry run flake8 .
-	poetry run pylint 2023
+	poetry run pylint aoc

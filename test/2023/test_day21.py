@@ -1,0 +1,23 @@
+import inspect
+
+from aoc._2023.day21 import part1
+
+data = inspect.cleandoc(
+    """
+    ...........
+    .....###.#.
+    .###.##..#.
+    ..#.#...#..
+    ....#.#....
+    .##..S####.
+    .##..#...#.
+    .......##..
+    .##.#.####.
+    .##..##.##.
+    ...........
+    """
+).splitlines()
+
+
+def test_part1():
+    assert part1(data, 6) == 16
