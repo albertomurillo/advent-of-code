@@ -4,7 +4,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import List, Optional
 
-from aoc import Range
+from aoc.ranges import Range
 
 
 @dataclass

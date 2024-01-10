@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import cached_property
 from typing import Dict, List, Set, Tuple
 
-from aoc import Direction, E, Grid, GridPoint, N, S, W, shoelace
+from aoc.grids import Direction, E, Grid, GridPoint, N, S, W, shoelace
 
 
 class PipeMaze(Grid):

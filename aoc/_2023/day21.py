@@ -1,6 +1,7 @@
 from collections import deque
 
-from aoc import E, Grid, N, S, W, as_matrix
+from aoc import as_matrix
+from aoc.grids import E, Grid, N, S, W
 
 
 def part1(data: str, steps: int) -> int:

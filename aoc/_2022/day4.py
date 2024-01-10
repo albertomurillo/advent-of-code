@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Tuple
 
-from aoc import Range
+from aoc.ranges import Range
 
 
 def parse_ranges(data: str) -> Tuple[Range, Range]:

@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from functools import cached_property
 from typing import Dict, List, Set
 
-from aoc import Grid, GridPoint, as_matrix
+from aoc import as_matrix
+from aoc.grids import Grid, GridPoint
 
 
 @dataclass

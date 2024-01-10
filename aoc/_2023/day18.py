@@ -1,6 +1,6 @@
 import re
 
-from aoc import E, GridPoint, N, S, W, shoelace
+from aoc.grids import E, GridPoint, N, S, W, shoelace
 
 
 def part1(data: str) -> int:

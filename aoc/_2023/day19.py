@@ -7,7 +7,7 @@ from copy import copy
 from dataclasses import dataclass
 from typing import List, Tuple
 
-from aoc import Range
+from aoc.ranges import Range
 
 
 class PartRange(dict[str, Range]):

@@ -1,6 +1,7 @@
 from typing import Dict
 
-from aoc import Direction, Grid, GridPoint, N, as_matrix
+from aoc import as_matrix
+from aoc.grids import Direction, Grid, GridPoint, N
 
 
 class Platform(Grid):

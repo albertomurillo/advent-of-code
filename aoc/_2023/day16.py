@@ -1,7 +1,8 @@
 from collections import defaultdict
 from typing import Dict, List, Set, Tuple
 
-from aoc import Direction, E, Grid, GridPoint, N, S, W, as_matrix
+from aoc import as_matrix
+from aoc.grids import Direction, E, Grid, GridPoint, N, S, W
 
 
 class Contraption(Grid):

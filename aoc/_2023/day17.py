@@ -4,7 +4,8 @@ from dataclasses import dataclass
 from heapq import heappop, heappush
 from typing import List
 
-from aoc import Direction, E, Grid, GridPoint, S, as_matrix
+from aoc import as_matrix
+from aoc.grids import Direction, E, Grid, GridPoint, S
 
 
 @dataclass(frozen=True, order=True)

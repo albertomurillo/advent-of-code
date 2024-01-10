@@ -2,7 +2,8 @@ from functools import cached_property
 from itertools import combinations
 from typing import List, Set
 
-from aoc import Grid, GridPoint, as_matrix
+from aoc import as_matrix
+from aoc.grids import Grid, GridPoint
 
 
 class Universe(Grid):
