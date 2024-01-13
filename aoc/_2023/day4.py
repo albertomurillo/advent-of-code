@@ -1,3 +1,4 @@
+import sys
 from functools import cached_property
 
 
@@ -34,9 +35,7 @@ def part2(data: str) -> int:
 
 
 def main():
-    with open("day4.txt", encoding="utf-8") as f:
-        data = f.read()
-
+    data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")
 

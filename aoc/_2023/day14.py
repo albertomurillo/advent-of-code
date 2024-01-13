@@ -1,3 +1,4 @@
+import sys
 from typing import Dict
 
 from aoc import as_matrix
@@ -60,11 +61,9 @@ def part2(data: str):
 
 
 def main():
-    with open("day14.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

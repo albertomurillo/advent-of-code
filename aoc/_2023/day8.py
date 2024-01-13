@@ -1,5 +1,6 @@
 import math
 import re
+import sys
 from itertools import cycle
 from typing import Dict, List, Set
 
@@ -9,8 +10,8 @@ class Map:
         self.directions = data[0]
 
         self.map: Dict[str, Dict[str, str]] = {}
+        pattern = re.compile(r"(\w{3}) = \((\w{3}), (\w{3})\)")
         for element in data[2:]:
-            pattern = re.compile(r"(\w{3}) = \((\w{3}), (\w{3})\)")
             node, left, right = pattern.match(element).groups()
             self.map[node] = {"L": left, "R": right}
 
@@ -27,12 +28,12 @@ class Map:
         raise RuntimeError
 
 
-def part1(data: List[str]) -> int:
-    map_ = Map(data)
+def part1(data: str) -> int:
+    map_ = Map(data.splitlines())
     return map_.steps_to_destination_suffix("AAA", "ZZZ")
 
 
-def part2(data: List[str]) -> int:
+def part2(data: str) -> int:
     # Examining the input data we can find that:
     # 1) For each A node, there is only one path to only one Z node
     # 2) After a Z node is reached at x steps:
@@ -41,18 +42,16 @@ def part2(data: List[str]) -> int:
     # The least common multiple is the point where all cycles meet
     # https://en.wikipedia.org/wiki/Least_common_multiple
 
-    map_ = Map(data)
+    map_ = Map(data.splitlines())
     nodes = (node for node in map_.nodes if node.endswith("A"))
     steps = [map_.steps_to_destination_suffix(node, "Z") for node in nodes]
     return math.lcm(*steps)
 
 
 def main():
-    with open("day8.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

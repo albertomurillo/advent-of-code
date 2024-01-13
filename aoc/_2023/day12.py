@@ -1,3 +1,4 @@
+import sys
 from collections import defaultdict
 from itertools import repeat
 from typing import Dict, List, Tuple
@@ -61,22 +62,20 @@ class SpringConditions:
         return matches
 
 
-def part1(data: List[str]):
-    scr = SpringConditions(data)
+def part1(data: str):
+    scr = SpringConditions(data.splitlines())
     return sum(scr.matches(springs, groups) for springs, groups in scr.records)
 
 
-def part2(data: List[str]) -> int:
-    scr = SpringConditions(data, 5)
+def part2(data: str) -> int:
+    scr = SpringConditions(data.splitlines(), 5)
     return sum(scr.matches(springs, groups) for springs, groups in scr.records)
 
 
 def main():
-    with open("day12.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

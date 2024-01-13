@@ -1,12 +1,25 @@
 from __future__ import annotations
 
+import sys
 from functools import cached_property
 from typing import Dict, List, Set, Tuple
 
+from aoc import as_matrix
 from aoc.grids import Direction, E, Grid, GridPoint, N, S, W, shoelace
 
 
 class PipeMaze(Grid):
+    pipes: Dict[str, Set[Direction]] = {
+        "|": {N, S},
+        "-": {E, W},
+        "L": {N, E},
+        "J": {N, W},
+        "7": {S, W},
+        "F": {S, E},
+        ".": set(),
+        "S": set(),
+    }
+
     @cached_property
     def start(self) -> GridPoint:
         return next(p for p, v in self.items() if v == "S")
@@ -25,64 +38,30 @@ class PipeMaze(Grid):
 
         return loop
 
-    @cached_property
-    def insides(self) -> Set[GridPoint]:
-        # Use the ray casting algorithm
-        # https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
-        insides: Set[GridPoint] = set()
-        loop = set(self.loop)
-        for i, row in enumerate(self.data):
-            outside = True
-            for j, _ in enumerate(row):
-                p = GridPoint(i, j)
-                if p not in loop and not outside:
-                    insides.add(p)
-                    continue
-                if p in loop:
-                    if self[p] in "S|JL":
-                        outside = not outside
-        return insides
-
-    @property
-    def _pipe_dirs(self) -> Dict[str, Set[Direction]]:
+    def _incoming(self, point: GridPoint) -> Set[GridPoint]:
         return {
-            "|": {N, S},
-            "-": {E, W},
-            "L": {N, E},
-            "J": {N, W},
-            "7": {S, W},
-            "F": {S, E},
-            ".": set(),
-            "S": set(),
+            neighbor
+            for neighbor in point.neighbors
+            if neighbor in self
+            and point in (neighbor.step(d) for d in self.pipes[self[neighbor]])
         }
 
-    def _incoming(self, point: GridPoint) -> Set[GridPoint]:
-        incoming = set()
-        neighbors = (p for p in point.neighbors if p in self)
-        for neighbor in neighbors:
-            directions = self._pipe_dirs[self[neighbor]]
-            for direction in directions:
-                if neighbor.step(direction) == point:
-                    incoming.add(neighbor)
-        return incoming
-
-    def _outgoing(self, point: GridPoint) -> Set[GridPoint]:
-        return {point.step(dir) for dir in self._pipe_dirs[self[point]]}
-
-    def _step(self, prev: GridPoint, current: GridPoint) -> Tuple[GridPoint, GridPoint]:
-        return current, self._outgoing(current).difference((prev,)).pop()
+    def _step(self, prev: GridPoint, curr: GridPoint) -> Tuple[GridPoint, GridPoint]:
+        dirs = self.pipes[self[curr]]
+        return curr, next(x for x in (curr.step(d) for d in dirs) if x != prev)
 
 
-def part1(maze: PipeMaze) -> int:
+def part1(data: str) -> int:
+    maze = PipeMaze(as_matrix(data))
+    print(len(maze.loop))
     return len(maze.loop) // 2
 
 
-def part2_raycasting(maze: PipeMaze) -> int:
-    return len(maze.insides)
+def part2(data: str) -> int:
+    maze = PipeMaze(as_matrix(data))
 
-
-def part2_shoelace(maze: PipeMaze) -> int:
     # https://en.wikipedia.org/wiki/Pick's_theorem
+    # a = i + b/2 - 1
     a = shoelace(maze.loop)
     b = len(maze.loop)
     i = a + 1 - b // 2
@@ -90,14 +69,9 @@ def part2_shoelace(maze: PipeMaze) -> int:
 
 
 def main():
-    with open("day10.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
-
-    maze = PipeMaze([list(line) for line in data])
-
-    print(part1(maze))
-    print(part2_raycasting(maze))
-    print(part2_shoelace(maze))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

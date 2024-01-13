@@ -90,3 +90,20 @@ def shoelace(points: List[GridPoint]) -> float:
     x = [v.col for v in points]
     y = [v.row for v in points]
     return abs(sum(x[i - 1] * y[i] - x[i] * y[i - 1] for i in range(len(points)))) / 2
+
+
+def manhattan(a: GridPoint, b: GridPoint) -> int:
+    r = a - b
+    return abs(r.real) + abs(r.imag)
+
+
+def manhattan_all_pairs(values: List[GridPoint]) -> int:
+    def sum_axis(values: List[int]) -> int:
+        acc = result = 0
+        for i, v in enumerate(values):
+            result += v * i - acc
+            acc += v
+        return result
+
+    rows, cols = zip(*values)
+    return sum_axis(sorted(rows)) + sum_axis(sorted(cols))

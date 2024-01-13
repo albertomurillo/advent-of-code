@@ -10,7 +10,7 @@ data = inspect.cleandoc(
     KTJJT 220
     QQQJA 483
     """
-).splitlines()
+)
 
 
 def test_part1():

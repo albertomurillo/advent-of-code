@@ -11,7 +11,7 @@ data = inspect.cleandoc(
     ????.######..#####. 1,6,5
     ?###???????? 3,2,1
     """
-).splitlines()
+)
 
 
 def test_part1():

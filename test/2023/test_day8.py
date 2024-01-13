@@ -16,7 +16,7 @@ def test_part1():
         GGG = (GGG, GGG)
         ZZZ = (ZZZ, ZZZ)
     """
-    ).splitlines()
+    )
     assert part1(data) == 2
 
 
@@ -34,5 +34,5 @@ def test_part2():
         22Z = (22B, 22B)
         XXX = (XXX, XXX)
     """
-    ).splitlines()
+    )
     assert part2(data) == 6

@@ -1,9 +1,9 @@
+import sys
 from functools import cached_property
-from itertools import combinations
 from typing import List, Set
 
 from aoc import as_matrix
-from aoc.grids import Grid, GridPoint
+from aoc.grids import Grid, GridPoint, manhattan_all_pairs
 
 
 class Universe(Grid):
@@ -21,40 +21,48 @@ class Universe(Grid):
         return {i for i in range(self.n) if all(c == "." for c in rotated.data[i])}
 
     @cached_property
-    def galaxies(self) -> Set[GridPoint]:
-        return set(p for p, v in self.items() if v == "#")
+    def galaxies(self) -> List[GridPoint]:
+        galaxies = []
 
-    def path(self, galaxy1: GridPoint, galaxy2: GridPoint) -> int:
-        (y1, y2), (x1, x2) = (sorted(x) for x in zip(tuple(galaxy1), tuple(galaxy2)))
-        xs = range(x1, x2)
-        ys = range(y1, y2)
-        x_cross = sum(1 for x in self.empty_cols if x in xs)
-        y_cross = sum(1 for y in self.empty_rows if y in ys)
-        return (
-            len(xs)
-            + len(ys)
-            + x_cross * (self.expansion - 1)
-            + y_cross * (self.expansion - 1)
-        )
+        i_gaps = 0
+        for i, row in enumerate(self.data):
+            if i in self.empty_rows:
+                i_gaps += 1
+                continue
+
+            j_gaps = 0
+            for j, c in enumerate(row):
+                if j in self.empty_cols:
+                    j_gaps += 1
+                    continue
+
+                if c != "#":
+                    continue
+
+                galaxies.append(
+                    GridPoint(
+                        i + i_gaps * (self.expansion - 1),
+                        j + j_gaps * (self.expansion - 1),
+                    )
+                )
+
+        return galaxies
 
 
 def part1(data: str):
     universe = Universe(as_matrix(data), expansion=2)
-    return sum(universe.path(g1, g2) for g1, g2 in combinations(universe.galaxies, 2))
+    return manhattan_all_pairs(universe.galaxies)
 
 
 def part2(data: str):
     universe = Universe(as_matrix(data), expansion=1_000_000)
-    return sum(universe.path(g1, g2) for g1, g2 in combinations(universe.galaxies, 2))
+    return manhattan_all_pairs(universe.galaxies)
 
 
 def main():
-    data = []
-    with open("day11.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":
