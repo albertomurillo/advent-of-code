@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple
@@ -135,10 +136,8 @@ def part1(data: str) -> int:
 
 
 def main():
-    with open("day20.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
 
 
 if __name__ == "__main__":

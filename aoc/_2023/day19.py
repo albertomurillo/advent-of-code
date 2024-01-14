@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import operator
 import re
+import sys
 from copy import copy
 from dataclasses import dataclass
 from typing import List, Tuple
@@ -152,11 +153,9 @@ def part2(data: str) -> int:
 
 
 def main():
-    with open("../../inputs/2023/day19.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

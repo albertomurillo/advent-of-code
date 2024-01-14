@@ -1,21 +1,22 @@
+import sys
 from collections import OrderedDict
 
 
 def hash_(s: str) -> int:
     total = 0
     for c in s:
-        _, total = divmod(((total + ord(c)) * 17), 256)
+        total = ((total + ord(c)) * 17) % 256
     return total
 
 
 def part1(data: str):
-    return sum(hash_(step) for step in data.split(","))
+    return sum(hash_(step) for step in data.rstrip().split(","))
 
 
 def part2(data: str):
     boxes = [OrderedDict() for _ in range(256)]
 
-    for step in data.split(","):
+    for step in data.rstrip().split(","):
         if step.endswith("-"):
             box, _ = step.split("-")
             if box in boxes[hash_(box)]:
@@ -34,11 +35,9 @@ def part2(data: str):
 
 
 def main():
-    with open("day15.txt", encoding="utf-8") as f:
-        data = f.read().strip()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

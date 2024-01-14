@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
 from heapq import heappop, heappush
 from typing import List
@@ -76,11 +77,9 @@ def part2(data: str):
 
 
 def main():
-    with open("day17.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

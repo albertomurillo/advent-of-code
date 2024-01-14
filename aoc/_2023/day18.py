@@ -1,4 +1,5 @@
 import re
+import sys
 
 from aoc.grids import E, GridPoint, N, S, W, shoelace
 
@@ -48,11 +49,9 @@ def part2(data: str) -> int:
 
 
 def main():
-    with open("day18.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

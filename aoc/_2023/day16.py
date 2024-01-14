@@ -1,3 +1,4 @@
+import sys
 from collections import defaultdict
 from typing import Dict, List, Set, Tuple
 
@@ -57,11 +58,9 @@ def part2(data: List[str]):
 
 
 def main():
-    with open("day16.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data))
-    print(part2(data))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data)}")
+    print(f"part 2: {part2(data)}")
 
 
 if __name__ == "__main__":

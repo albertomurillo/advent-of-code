@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 
 from aoc import as_matrix
@@ -25,10 +26,8 @@ def part1(data: str, steps: int) -> int:
 
 
 def main():
-    with open("day21.txt", encoding="utf-8") as f:
-        data = f.read()
-
-    print(part1(data, 64))
+    data = sys.stdin.read()
+    print(f"part 1: {part1(data, 64)}")
 
 
 if __name__ == "__main__":
