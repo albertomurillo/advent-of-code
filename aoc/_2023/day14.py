@@ -2,22 +2,38 @@ import sys
 from typing import Dict
 
 from aoc import as_matrix
-from aoc.grids import Direction, Grid, GridPoint, N
+from aoc.grids import Grid
 
 
 class Platform(Grid):
     def tilt_north(self):
-        for p in (p for p, v in self.items() if v == "O"):
-            self._sink(p, N)
+        for col in range(self.n):
+            self._sink(col, range(0, self.m))
 
-    def _sink(self, p: GridPoint, direction: Direction):
-        np = p.step(direction)
-        if np not in self:
+    def _sink(self, col: int, rows: range):
+        round_rocks = empty_spaces = 0
+        for i in rows:
+            c = self.data[i][col]
+            match c:
+                case "O":
+                    round_rocks += 1
+                case ".":
+                    empty_spaces += 1
+                case "#":
+                    self._sink(col, range(i + 1, rows.stop))
+                    break
+
+        if not round_rocks:
             return
-        if self[np] != ".":
-            return
-        self[p], self[np] = self[np], self[p]
-        self._sink(np, direction)
+        i = rows.start
+        while round_rocks:
+            self.data[i][col] = "O"
+            i += 1
+            round_rocks -= 1
+        while empty_spaces:
+            self.data[i][col] = "."
+            i += 1
+            empty_spaces -= 1
 
     def load(self):
         total = 0
