@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import sys
 from dataclasses import dataclass
-from heapq import heappop, heappush
 from typing import List
 
 from aoc import as_matrix
 from aoc.grids import Direction, E, Grid, GridPoint, S
+from aoc.heaps import BucketQueue, PriorityQueue
 
 
 @dataclass(frozen=True, order=True)
@@ -28,14 +28,15 @@ class Board(Grid):
     def target(self) -> GridPoint:
         return GridPoint(self.m - 1, self.n - 1)
 
-    def dijkstra(self, min_steps: int, max_steps: int) -> int:
-        q = [
-            (0, State(self.source, E, 0)),
-            (0, State(self.source, S, 0)),
-        ]
+    def dijkstra(self, min_steps: int, max_steps: int, q: PriorityQueue) -> int:
+        cost: int
+        state: State
         visited = set()
+
+        q.push(0, State(self.source, E, 0))
+        q.push(0, State(self.source, S, 0))
         while q:
-            cost, state = heappop(q)
+            cost, state = q.pop()
 
             if state in visited:
                 continue
@@ -48,32 +49,30 @@ class Board(Grid):
                 left = state.direction.left
                 adj = state.point.step(left)
                 if adj in self:
-                    heappush(q, (cost + int(self[adj]), State(adj, left, 1)))
+                    q.push(cost + int(self[adj]), State(adj, left, 1))
 
                 right = state.direction.right
                 adj = state.point.step(right)
                 if adj in self:
-                    heappush(q, (cost + int(self[adj]), State(adj, right, 1)))
+                    q.push(cost + int(self[adj]), State(adj, right, 1))
 
             if state.steps < max_steps:
                 ahead = state.direction
                 adj = state.point.step(ahead)
                 if adj in self:
-                    heappush(
-                        q, (cost + int(self[adj]), State(adj, ahead, state.steps + 1))
-                    )
+                    q.push(cost + int(self[adj]), State(adj, ahead, state.steps + 1))
 
         return -1
 
 
 def part1(data: str):
     board = Board(as_matrix(data))
-    return board.dijkstra(0, 3)
+    return board.dijkstra(0, 3, BucketQueue())
 
 
 def part2(data: str):
     board = Board(as_matrix(data))
-    return board.dijkstra(4, 10)
+    return board.dijkstra(4, 10, BucketQueue())
 
 
 def main():
