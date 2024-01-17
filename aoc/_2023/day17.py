@@ -26,28 +26,26 @@ class Solution(Graph):
             visited.add(state)
             (e1, direction, steps) = state
 
-            if steps >= min_steps:
-                if e1 == stop:
-                    return cost
+            if steps >= min_steps and e1 == stop:
+                return cost
 
-                left = direction.left
-                e2 = e1.step(left)
-                w = self.edges[e1].get(e2, None)
-                if w is not None:
-                    q.push(cost + w, (e2, left, 1))
+            if steps < min_steps and e1 == stop:
+                continue
 
-                right = direction.right
-                e2 = e1.step(right)
+            for d in (direction.left, direction.right, direction):
+                e2 = e1.step(d)
                 w = self.edges[e1].get(e2, None)
-                if w is not None:
-                    q.push(cost + w, (e2, right, 1))
 
-            if steps < max_steps:
-                ahead = direction
-                e2 = e1.step(ahead)
-                w = self.edges[e1].get(e2, None)
-                if w is not None:
-                    q.push(cost + w, (e2, ahead, steps + 1))
+                if (
+                    (w is None)
+                    or (steps < min_steps and d != direction)
+                    or (steps >= max_steps and d == direction)
+                ):
+                    continue
+
+                new_cost = cost + w
+                new_step = 1 if d != direction else steps + 1
+                q.push(new_cost, (e2, d, new_step))
 
         return -1
 

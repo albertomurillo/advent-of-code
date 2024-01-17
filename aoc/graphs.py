@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 from collections import defaultdict
 from typing import Callable, Hashable, Iterable
+
 from aoc.heaps import BucketQueue
 
 Edge = Hashable
