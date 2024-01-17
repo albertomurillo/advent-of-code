@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import defaultdict
 from typing import Hashable
 
@@ -7,8 +9,8 @@ Edge = Hashable
 
 
 class Graph:
-    def __init__(self):
-        self.vertices = defaultdict(dict)
+    def __init__(self, graph: Graph = None):
+        self.vertices = graph.vertices if graph is not None else defaultdict(dict)
 
     def add_vertex(self, e1: Edge, e2: Edge, w=0):
         self.vertices[e1][e2] = w
@@ -20,7 +22,6 @@ class Graph:
 
         while q:
             cost, e1 = q.pop()
-
             if e1 in visited:
                 continue
             visited.add(e1)
