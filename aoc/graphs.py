@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import math
 from collections import defaultdict
-from typing import Callable, Hashable
-
+from typing import Callable, Hashable, Iterable
 from aoc.heaps import BucketQueue
 
 Edge = Hashable
@@ -12,64 +12,53 @@ DistanceFn = Callable[[Edge, Edge], Distance]
 
 class Graph:
     def __init__(self, graph: Graph = None):
-        self.vertices = graph.vertices if graph is not None else defaultdict(dict)
+        self.edges = graph.edges if graph is not None else defaultdict(dict)
+        self.costs = {}
+        self.parents = {}
 
     def add_vertex(self, e1: Edge, e2: Edge, w=0):
-        self.vertices[e1][e2] = w
+        self.edges[e1][e2] = w
 
-    def dijkstra(self, start: Edge, stop: Edge) -> int:
+    def shortest_path(
+        self,
+        start: Edge,
+        stop: Edge = None,
+        heuristic_fn: DistanceFn = None,
+    ):
+        def f(n) -> int:
+            return self.costs[n] + heuristics[n]
+
+        self.costs = {start: 0}
+        self.parents = {start: start}
+        heuristics = {start: 0}
+        heuristic_fn = heuristic_fn if heuristic_fn is not None else lambda a, b: 0
+
         q = BucketQueue()
-        q.push(0, start)
+        q.push(f(start), start)
         visited = set()
 
         while q:
-            cost, e1 = q.pop()
+            _, e1 = q.pop()
             if e1 in visited:
                 continue
             visited.add(e1)
 
             if e1 == stop:
-                return cost
+                return
 
-            for e2, w in self.vertices[e1].items():
-                q.push(cost + w, e2)
+            for e2, w in self.edges[e1].items():
+                new_cost = self.costs[e1] + w
+                old_cost = self.costs.get(e2, math.inf)
+                if new_cost < old_cost:
+                    self.costs[e2] = new_cost
+                    self.parents[e2] = e1
+                    heuristics[e2] = heuristic_fn(e2, stop)
+                q.push(f(e2), e2)
 
-        return -1
-
-    def a_star(self, start: Edge, stop: Edge, heuristic_fn: DistanceFn) -> int:
-        def f(n) -> int:
-            return cost[n] + heuristic[n]
-
-        parent = {start: start}
-        cost = {start: 0}
-        heuristic = {start: 0}
-        openedqueue = BucketQueue()
-        openedqueue.push(f(start), start)
-        openedset = {start}
-        closedset = set()
-
-        while openedset:
-            _, current = openedqueue.pop()
-            openedset.remove(current)
-
-            if current == stop:
-                return cost[current]
-
-            closedset.add(current)
-            for node, w in self.vertices[current].items():
-                if node in openedset:
-                    continue
-
-                if node in closedset:
-                    new_g = cost[current] + w
-                    if cost[current] > new_g:
-                        cost[node] = new_g
-                        parent[node] = current
-                else:
-                    cost[node] = cost[current] + w
-                    heuristic[node] = heuristic_fn(node, stop)
-                    parent[node] = current
-                    openedqueue.push(f(node), node)
-                    openedset.add(node)
-
-        return -1
+    def backtrack(self, start: Edge, stop: Edge) -> Iterable[Edge]:
+        yield stop
+        parent, current = None, stop
+        while parent != start:
+            parent = self.parents[current]
+            yield parent
+            current = parent

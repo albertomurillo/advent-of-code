@@ -32,20 +32,20 @@ class Solution(Graph):
 
                 left = direction.left
                 e2 = e1.step(left)
-                w = self.vertices[e1].get(e2, None)
+                w = self.edges[e1].get(e2, None)
                 if w is not None:
                     q.push(cost + w, (e2, left, 1))
 
                 right = direction.right
                 e2 = e1.step(right)
-                w = self.vertices[e1].get(e2, None)
+                w = self.edges[e1].get(e2, None)
                 if w is not None:
                     q.push(cost + w, (e2, right, 1))
 
             if steps < max_steps:
                 ahead = direction
                 e2 = e1.step(ahead)
-                w = self.vertices[e1].get(e2, None)
+                w = self.edges[e1].get(e2, None)
                 if w is not None:
                     q.push(cost + w, (e2, ahead, steps + 1))
 
