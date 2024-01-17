@@ -1,6 +1,5 @@
-from __future__ import annotations
-
 import sys
+from collections import defaultdict
 
 from aoc import as_graph, as_matrix
 from aoc.graphs import Graph
@@ -18,6 +17,7 @@ class Solution(Graph):
         q.push(0, (start, E, 0))
         q.push(0, (start, S, 0))
         visited = set()
+        h = defaultdict(dict)
 
         while q:
             cost, state = q.pop()
@@ -32,10 +32,16 @@ class Solution(Graph):
             if steps < min_steps and e1 == stop:
                 continue
 
+            # http://clb.confined.space/aoc2023/#day17opt
+            if steps >= min_steps:
+                prev_steps = h[e1].get(direction, max_steps + 1)
+                if steps > prev_steps:
+                    continue
+                h[e1][direction] = min(steps, prev_steps)
+
             for d in (direction.left, direction.right, direction):
                 e2 = e1.step(d)
                 w = self.edges[e1].get(e2, None)
-
                 if (
                     (w is None)
                     or (steps < min_steps and d != direction)
@@ -44,8 +50,8 @@ class Solution(Graph):
                     continue
 
                 new_cost = cost + w
-                new_step = 1 if d != direction else steps + 1
-                q.push(new_cost, (e2, d, new_step))
+                new_steps = 1 if d != direction else steps + 1
+                q.push(new_cost, (e2, d, new_steps))
 
         return -1
 
