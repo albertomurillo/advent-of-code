@@ -9,7 +9,7 @@ from aoc.heaps import BucketQueue
 
 
 class Solution(Graph):
-    def dijkstra(self, start, target, min_steps, max_steps) -> int:
+    def dijkstra(self, start, stop, min_steps, max_steps) -> int:
         e1: GridPoint
         direction: Direction
         steps: int
@@ -27,7 +27,7 @@ class Solution(Graph):
             (e1, direction, steps) = state
 
             if steps >= min_steps:
-                if e1 == target:
+                if e1 == stop:
                     return cost
 
                 left = direction.left
