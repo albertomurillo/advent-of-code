@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import sys
-from collections import OrderedDict
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Optional
 
+from aoc import as_parts
 from aoc.ranges import Range
 
 
@@ -26,36 +27,19 @@ class AlmanacMap:
 
 
 class Almanac:
-    def __init__(self, data: List[str]):
-        self.maps: OrderedDict[str, List[AlmanacMap]] = OrderedDict(
-            (
-                ("seed-to-soil", []),
-                ("soil-to-fertilizer", []),
-                ("fertilizer-to-water", []),
-                ("water-to-light", []),
-                ("light-to-temperature", []),
-                ("temperature-to-humidity", []),
-                ("humidity-to-location", []),
-            )
-        )
-
-        map_ = None
-        for line in data[1:]:
-            if not line:
-                map_ = None
-                continue
-
-            if map_ is None:
-                map_ = self.maps[line.split(" map:")[0]]
-                continue
-
-            dest, src, size = (int(x) for x in line.split())
-            map_.append(
-                AlmanacMap(
-                    source=Range(src, src + size),
-                    dest=Range(dest, dest + size),
+    def __init__(self, maps: List[str]):
+        self.maps = defaultdict(list)
+        for map in maps:
+            header, *lines = map.splitlines()
+            name = header.split()[0]
+            for line in lines:
+                dest, src, size = (int(x) for x in line.split())
+                self.maps[name].append(
+                    AlmanacMap(
+                        source=Range(src, src + size),
+                        dest=Range(dest, dest + size),
+                    )
                 )
-            )
 
     def seed_to_location(self, seed: int) -> int:
         source = seed
@@ -91,19 +75,21 @@ class Almanac:
 
 
 def part1(data: str) -> int:
-    almanac = Almanac(data.splitlines())
-    seeds = [int(x) for x in data.splitlines()[0].split(": ")[1].split()]
+    seed_data, *map_data = as_parts(data)
+    seeds = [int(x) for x in seed_data.split()[1:]]
+    almanac = Almanac(map_data)
     return min(almanac.seed_to_location(seed) for seed in seeds)
 
 
 def part2(data: str) -> int:
-    almanac = Almanac(data.splitlines())
+    seed_data, *map_data = as_parts(data)
+    almanac = Almanac(map_data)
 
     seed_ranges: List[Range] = []
-    range_data = data.splitlines()[0].split(": ")[1].split()
+    range_data = [int(x) for x in seed_data.split()[1:]]
     for i in range(0, len(range_data), 2):
-        start = int(range_data[i])
-        size = int(range_data[i + 1])
+        start = range_data[i]
+        size = range_data[i + 1]
         seed_ranges.append(Range(start, start + size))
 
     location_ranges: List[Range] = []

@@ -14,3 +14,7 @@ def as_graph(grid: Grid) -> Graph:
         for e2 in [n for n in e1.neighbors if n in grid]:
             graph.add_vertex(e1, e2, int(grid[e2]))
     return graph
+
+
+def as_parts(data: str) -> List[str]:
+    return [x.rstrip("\n") for x in data.split("\n\n")]

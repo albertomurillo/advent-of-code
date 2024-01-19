@@ -8,6 +8,7 @@ from copy import copy
 from dataclasses import dataclass
 from typing import List, Tuple
 
+from aoc import as_parts
 from aoc.ranges import Range
 
 
@@ -98,18 +99,15 @@ class Workflows(dict[str, Workflow]):
 
 
 def parse_input(data: str) -> Tuple[Workflows, List[Part]]:
-    w, p = data.split("\n\n")
+    p1, p2 = as_parts(data)
 
-    workflows = Workflows()
-    for workflow in w.splitlines():
-        w = parse_workflow(workflow)
-        workflows[w.name] = w
+    workflows = {(w := parse_workflow(line)).name: w for line in p1.splitlines()}
     workflows["A"] = Workflow(name="A", rules=[], default="A")
     workflows["R"] = Workflow(name="R", rules=[], default="R")
 
-    parts = [parse_part(p) for p in p.splitlines()]
+    parts = [parse_part(line) for line in p2.splitlines()]
 
-    return workflows, parts
+    return Workflows(workflows), parts
 
 
 def parse_workflow(data: str) -> Workflow:

@@ -1,9 +1,7 @@
 import sys
 from typing import List
 
-
-def parse_mirrors(data: str) -> List[List[str]]:
-    return [m.strip().split("\n") for m in data.split("\n\n")]
+from aoc import as_parts
 
 
 def rows_above_reflection(mirror: List[str], smudges=0) -> int:
@@ -24,7 +22,7 @@ def rows_above_reflection(mirror: List[str], smudges=0) -> int:
 
 
 def part1(data: str) -> int:
-    mirrors = parse_mirrors(data)
+    mirrors = [p.splitlines() for p in as_parts(data)]
     total = 0
     for mirror in mirrors:
         total += rows_above_reflection(mirror) * 100
@@ -34,7 +32,7 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    mirrors = parse_mirrors(data)
+    mirrors = [p.splitlines() for p in as_parts(data)]
     total = 0
     for mirror in mirrors:
         total += rows_above_reflection(mirror, smudges=1) * 100
