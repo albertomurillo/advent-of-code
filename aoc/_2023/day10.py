@@ -53,7 +53,6 @@ class PipeMaze(Grid):
 
 def part1(data: str) -> int:
     maze = PipeMaze(as_matrix(data))
-    print(len(maze.loop))
     return len(maze.loop) // 2
 
 

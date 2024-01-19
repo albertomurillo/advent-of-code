@@ -8,7 +8,7 @@ data = inspect.cleandoc(
     B X
     C Z
     """
-).splitlines()
+)
 
 
 def test_part1():

@@ -19,7 +19,7 @@ data = inspect.cleandoc(
 
     10000
     """
-).splitlines()
+)
 
 
 def test_part1():

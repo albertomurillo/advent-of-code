@@ -1,4 +1,4 @@
-from typing import List
+import sys
 
 
 def value(c: str) -> int:
@@ -9,9 +9,9 @@ def value(c: str) -> int:
     raise ValueError
 
 
-def part1(data: List[str]) -> int:
+def part1(data: str) -> int:
     total = 0
-    for line in data:
+    for line in data.splitlines():
         mid = len(line) // 2
         s1 = set(line[:mid])
         s2 = set(line[mid:])
@@ -20,11 +20,11 @@ def part1(data: List[str]) -> int:
     return total
 
 
-def part2(data: List[str]) -> int:
+def part2(data: str) -> int:
     total = 0
     items = []
 
-    for line in data:
+    for line in data.splitlines():
         items.append(set(line))
         if len(items) == 3:
             badge = set.intersection(*items).pop()
@@ -35,9 +35,7 @@ def part2(data: List[str]) -> int:
 
 
 def main():
-    with open("day3.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
-
+    data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")
 

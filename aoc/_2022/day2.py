@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+import sys
 
 
 class Shape:
@@ -28,7 +28,7 @@ SCISSOR.beats = PAPER
 SCISSOR.beaten_by = ROCK
 
 
-def part1(data: List[str]) -> int:
+def part1(data: str) -> int:
     score = 0
 
     shapes = {
@@ -40,7 +40,7 @@ def part1(data: List[str]) -> int:
         "Z": SCISSOR,
     }
 
-    for line in data:
+    for line in data.splitlines():
         opponent, me = line.split()
         opponent = shapes[opponent]
         me = shapes[me]
@@ -49,7 +49,7 @@ def part1(data: List[str]) -> int:
     return score
 
 
-def part2(data: List[str]) -> int:
+def part2(data: str) -> int:
     score = 0
 
     shapes = {
@@ -64,7 +64,7 @@ def part2(data: List[str]) -> int:
         "Z": "WIN",
     }
 
-    for line in data:
+    for line in data.splitlines():
         opponent, action = line.split()
         opponent = shapes[opponent]
         action = actions[action]
@@ -80,9 +80,7 @@ def part2(data: List[str]) -> int:
 
 
 def main():
-    with open("day2.txt", encoding="utf-8") as f:
-        data = f.read().splitlines()
-
+    data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")
 
