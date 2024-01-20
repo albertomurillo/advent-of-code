@@ -23,8 +23,11 @@ W = Direction(0, -1)
 
 
 class Grid:
-    def __init__(self, data: List[List[str]]):
-        self.data = data
+    def __init__(self, data: List[List[str]] | Grid):
+        if isinstance(data, Grid):
+            self.data = data.data
+        else:
+            self.data = data
 
     @property
     def m(self) -> int:
