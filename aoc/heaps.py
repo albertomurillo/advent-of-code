@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import heapq
 from collections import defaultdict
-from typing import Any, Hashable, Protocol, Tuple
+from collections.abc import Hashable
+from typing import Any, Protocol, Tuple
 
 Key = Hashable
 

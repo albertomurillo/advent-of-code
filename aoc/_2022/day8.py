@@ -13,7 +13,6 @@ class Forest(Grid):
     def viewing_distance(self, tree: GridPoint, direction: Direction) -> int:
         score = 0
         tree_h = int(self[tree])
-        shortest = -math.inf
         next_tree = tree.step(direction)
         while next_tree in self:
             h = int(self[next_tree])

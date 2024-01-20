@@ -5,6 +5,9 @@ from aoc import as_parts
 
 
 class CrateMover9000:
+    def __init__(self):
+        self.stacks = []
+
     def parse_drawing(self, drawing: List[str]):
         self.stacks = [[] for _ in drawing[-1].split()]
         columns = list(range(1, len(self.stacks) * 4, 4))

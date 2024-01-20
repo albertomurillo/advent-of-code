@@ -10,7 +10,7 @@ def as_matrix(data: str) -> List[List[str]]:
 
 def as_graph(grid: Grid) -> Graph:
     graph = Graph()
-    for e1, w in grid.items():
+    for e1, _ in grid.items():
         for e2 in [n for n in e1.neighbors if n in grid]:
             graph.add_vertex(e1, e2, int(grid[e2]))
     return graph

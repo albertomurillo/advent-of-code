@@ -29,8 +29,8 @@ class AlmanacMap:
 class Almanac:
     def __init__(self, maps: List[str]):
         self.maps = defaultdict(list)
-        for map in maps:
-            header, *lines = map.splitlines()
+        for map_ in maps:
+            header, *lines = map_.splitlines()
             name = header.split()[0]
             for line in lines:
                 dest, src, size = (int(x) for x in line.split())
