@@ -1,12 +1,10 @@
 import sys
 from collections import OrderedDict
+from functools import reduce
 
 
 def hash_(s: str) -> int:
-    total = 0
-    for c in s:
-        total = ((total + ord(c)) * 17) % 256
-    return total
+    return reduce(lambda total, c: ((total + ord(c)) * 17) % 256, s, 0)
 
 
 def part1(data: str):
