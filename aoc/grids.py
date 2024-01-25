@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from itertools import chain, pairwise
 from typing import Iterable, List, Tuple
 
 
@@ -90,9 +91,8 @@ class GridPoint(complex):
 
 def shoelace(points: List[GridPoint]) -> float:
     # https://en.wikipedia.org/wiki/Shoelace_formula
-    x = [v.col for v in points]
-    y = [v.row for v in points]
-    return abs(sum(x[i - 1] * y[i] - x[i] * y[i - 1] for i in range(len(points)))) / 2
+    pairs = pairwise(chain(points, (points[0],)))
+    return abs(sum(x1 * y2 - y1 * x2 for (x1, y1), (x2, y2) in pairs)) / 2
 
 
 def manhattan(a: GridPoint, b: GridPoint) -> int:
