@@ -24,11 +24,13 @@ W = Direction(0, -1)
 
 
 class Grid:
-    def __init__(self, data: List[List[str]] | Grid):
+    def __init__(self, data: List[List[str]] | Grid, repeating: bool = False):
         if isinstance(data, Grid):
             self.data = data.data
         else:
             self.data = data
+
+        self.repeating = repeating
 
     @property
     def m(self) -> int:
@@ -50,10 +52,12 @@ class Grid:
         return Grid([list(x) for x in (zip(*self.data[::-1]))])
 
     def __contains__(self, key: GridPoint) -> bool:
-        return 0 <= key.row < self.m and 0 <= key.col < self.n
+        return self.repeating or (0 <= key.row < self.m and 0 <= key.col < self.n)
 
     def __getitem__(self, key: GridPoint) -> str:
-        return self.data[key.row][key.col]
+        row = key.row if not self.repeating else key.row % self.m
+        col = key.col if not self.repeating else key.col % self.n
+        return self.data[row][col]
 
     def __setitem__(self, key: GridPoint, value: str) -> None:
         self.data[key.row][key.col] = value
