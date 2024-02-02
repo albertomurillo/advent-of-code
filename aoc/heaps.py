@@ -10,13 +10,13 @@ Key = Hashable
 
 class PriorityQueue(Protocol):
     def push(self, key: Key, value: Any) -> None:
-        ...
+        pass
 
     def pop(self) -> Tuple[Key, Any]:
-        ...
+        pass
 
     def __bool__(self) -> bool:
-        ...
+        pass
 
 
 class MinHeap:
