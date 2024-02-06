@@ -26,7 +26,7 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    pattern = re.compile(r"^[UDLR] \d+ \(#([a-f0-9]{5})([0-3]{1})\)$")
+    pattern = re.compile(r"^[UDLR] \d+ \(#([a-f0-9]{5})([0-3])\)$")
     directions = {"3": N, "1": S, "0": E, "2": W}
 
     p = GridPoint(0, 0)

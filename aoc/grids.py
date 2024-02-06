@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from itertools import chain, pairwise
-from typing import Iterable, List, Tuple
+from typing import Generator, Iterable, List, Tuple
 
 
 class Direction(complex):
@@ -85,7 +85,7 @@ class GridPoint(complex):
     def step(self, direction: Direction, offset: int = 1) -> GridPoint:
         return GridPoint(self + direction * offset)
 
-    def __iter__(self) -> int:
+    def __iter__(self) -> Generator[int, None, None]:
         for field in (self.row, self.col):
             yield field
 

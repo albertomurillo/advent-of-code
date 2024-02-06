@@ -2,29 +2,25 @@ import math
 import re
 import sys
 from itertools import cycle
-from typing import Dict, List, Set
+from typing import Dict, List
 
 
 class Map:
     def __init__(self, data: List[str]):
         self.directions = data[0]
 
-        self.map: Dict[str, Dict[str, str]] = {}
+        self.nodes: Dict[str, Dict[str, str]] = {}
         pattern = re.compile(r"(\w{3}) = \((\w{3}), (\w{3})\)")
         for element in data[2:]:
             node, left, right = pattern.match(element).groups()
-            self.map[node] = {"L": left, "R": right}
-
-    @property
-    def nodes(self) -> Set[str]:
-        return self.map.keys()
+            self.nodes[node] = {"L": left, "R": right}
 
     def steps_to_destination_suffix(self, start_node: str, end_node_suffix: str) -> int:
         node = start_node
         for steps, direction in enumerate(cycle(self.directions)):
             if node.endswith(end_node_suffix):
                 return steps
-            node = self.map[node][direction]
+            node = self.nodes[node][direction]
         raise RuntimeError
 
 
