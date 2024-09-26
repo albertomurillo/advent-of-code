@@ -33,7 +33,7 @@ class Graph:
         self.costs = {start: 0}
         self.parents = {start: start}
         heuristics = {start: 0}
-        heuristic_fn = heuristic_fn if heuristic_fn is not None else lambda a, b: 0
+        heuristic_fn = heuristic_fn if heuristic_fn is not None else lambda _a, _b: 0
 
         q = BucketQueue()
         q.push(f(start), start)

@@ -14,11 +14,9 @@ ignore = [
     "ISC001",
 
     "ARG002",  # Unused method argument: `sender`
-    "ARG005",  # Unused lambda argument: `b`
     "B905",    # [*] `zip()` without an explicit `strict=` parameter
     "E501",    # Line too long (92 > 88)
     "ERA001",  # Found commented-out code
-    "F401",    # [*] `typing.Tuple` imported but unused
     "FBT001",  # Boolean-typed positional argument in function definition
     "FBT002",  # Boolean default positional argument in function definition
     "PERF102", # When using only the keys of a dict use the `keys()` method
