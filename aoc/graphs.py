@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import math
 from collections import defaultdict
-from collections.abc import Hashable
-from typing import Callable, Iterable
+from collections.abc import Callable, Hashable, Iterable
 
 from aoc.heaps import BucketQueue
 

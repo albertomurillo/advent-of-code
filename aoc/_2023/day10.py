@@ -2,14 +2,13 @@ from __future__ import annotations
 
 import sys
 from functools import cached_property
-from typing import Dict, List, Set, Tuple
 
 from aoc import as_matrix
 from aoc.grids import Direction, E, Grid, GridPoint, N, S, W, shoelace
 
 
 class PipeMaze(Grid):
-    pipes: Dict[str, Set[Direction]] = {
+    pipes: dict[str, set[Direction]] = {
         "|": {N, S},
         "-": {E, W},
         "L": {N, E},
@@ -25,8 +24,8 @@ class PipeMaze(Grid):
         return next(p for p, v in self.items() if v == "S")
 
     @cached_property
-    def loop(self) -> List[GridPoint]:
-        loop: List[GridPoint] = []
+    def loop(self) -> list[GridPoint]:
+        loop: list[GridPoint] = []
 
         start = self.start
         prev, turtle = start, self._incoming(start).pop()
@@ -38,7 +37,7 @@ class PipeMaze(Grid):
 
         return loop
 
-    def _incoming(self, point: GridPoint) -> Set[GridPoint]:
+    def _incoming(self, point: GridPoint) -> set[GridPoint]:
         return {
             neighbor
             for neighbor in point.neighbors
@@ -46,7 +45,7 @@ class PipeMaze(Grid):
             and point in (neighbor.step(d) for d in self.pipes[self[neighbor]])
         }
 
-    def _step(self, prev: GridPoint, curr: GridPoint) -> Tuple[GridPoint, GridPoint]:
+    def _step(self, prev: GridPoint, curr: GridPoint) -> tuple[GridPoint, GridPoint]:
         dirs = self.pipes[self[curr]]
         return curr, next(x for x in (curr.step(d) for d in dirs) if x != prev)
 

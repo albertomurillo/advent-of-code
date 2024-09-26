@@ -4,7 +4,6 @@ import math
 import sys
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Dict, List, Set
 
 from aoc import as_matrix
 from aoc.grids import Grid, GridPoint
@@ -27,7 +26,7 @@ class Number:
         )
 
     @cached_property
-    def neighbors(self) -> List[GridPoint]:
+    def neighbors(self) -> list[GridPoint]:
         positions = []
 
         # Add top and down positions
@@ -46,7 +45,7 @@ class Number:
 @dataclass
 class Gear:
     pos: GridPoint
-    parts: List[Number]
+    parts: list[Number]
 
     @cached_property
     def ratio(self) -> int:
@@ -55,7 +54,7 @@ class Gear:
 
 class Schematic(Grid):
     @cached_property
-    def numbers(self) -> List[Number]:
+    def numbers(self) -> list[Number]:
         numbers = []
         for row, line in enumerate(self.data):
             start = 0
@@ -76,16 +75,16 @@ class Schematic(Grid):
         return numbers
 
     @cached_property
-    def part_numbers(self) -> List[Number]:
+    def part_numbers(self) -> list[Number]:
         return [n for n in self.numbers if any(p in self.symbols for p in n.neighbors)]
 
     @cached_property
-    def symbols(self) -> Set[GridPoint]:
+    def symbols(self) -> set[GridPoint]:
         return {p for p, v in self.items() if v not in "0123456789."}
 
     @cached_property
-    def gears(self) -> Dict[GridPoint, Gear]:
-        gears: Dict[GridPoint, Gear] = {}
+    def gears(self) -> dict[GridPoint, Gear]:
+        gears: dict[GridPoint, Gear] = {}
 
         for number in self.part_numbers:
             for neighbor in number.neighbors:
@@ -103,12 +102,12 @@ class Schematic(Grid):
         return gears
 
 
-def part1(data: List[str]) -> int:
+def part1(data: list[str]) -> int:
     schematic = Schematic(as_matrix(data))
     return sum(x.value for x in schematic.part_numbers)
 
 
-def part2(data: List[str]) -> int:
+def part2(data: list[str]) -> int:
     schematic = Schematic(as_matrix(data))
     return sum(gear.ratio for gear in schematic.gears.values())
 

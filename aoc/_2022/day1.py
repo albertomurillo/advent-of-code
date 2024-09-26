@@ -1,9 +1,8 @@
 import heapq
 import sys
-from typing import List
 
 
-def parse_calories(data: List[str]) -> List[int]:
+def parse_calories(data: list[str]) -> list[int]:
     calories = []
     total = 0
     for line in data:

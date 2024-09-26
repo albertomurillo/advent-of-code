@@ -1,23 +1,22 @@
 import sys
 from collections import defaultdict
 from itertools import repeat
-from typing import Dict, List, Tuple
 
 
 class SpringConditions:
-    def __init__(self, data: List[str], folded_in_parts: int = 1):
-        self.records: List[Tuple[str, List[int]]] = []
+    def __init__(self, data: list[str], folded_in_parts: int = 1):
+        self.records: list[tuple[str, list[int]]] = []
         for line in data:
             s, g = line.split()
             springs = "?".join(repeat(s, folded_in_parts))
             groups = [int(x) for x in ",".join(repeat(g, folded_in_parts)).split(",")]
             self.records.append((springs, groups))
 
-    def matches(self, springs: str, groups: List[int]) -> int:
+    def matches(self, springs: str, groups: list[int]) -> int:
         # Based on https://www.reddit.com/r/adventofcode/comments/18ge41g/comment/kd3rclt
 
-        nstates: Dict[Tuple[int, int, bool], int] = defaultdict(int)
-        cstates: Dict[Tuple[int, int, bool], int] = defaultdict(int)
+        nstates: dict[tuple[int, int, bool], int] = defaultdict(int)
+        cstates: dict[tuple[int, int, bool], int] = defaultdict(int)
         cstates[(0, 0, False)] = 1
 
         len_groups = len(groups)

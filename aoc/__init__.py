@@ -1,10 +1,8 @@
-from typing import List
-
 from aoc.graphs import Graph
 from aoc.grids import Grid
 
 
-def as_matrix(data: str) -> List[List[str]]:
+def as_matrix(data: str) -> list[list[str]]:
     return [list(x) for x in data.splitlines()]
 
 
@@ -16,5 +14,5 @@ def as_graph(grid: Grid) -> Graph:
     return graph
 
 
-def as_parts(data: str) -> List[str]:
+def as_parts(data: str) -> list[str]:
     return [x.rstrip("\n") for x in data.split("\n\n")]

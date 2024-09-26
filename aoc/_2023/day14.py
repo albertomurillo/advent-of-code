@@ -1,5 +1,4 @@
 import sys
-from typing import Dict
 
 from aoc import as_matrix
 from aoc.grids import Grid
@@ -48,7 +47,7 @@ def part2(data: str):
     platform = Platform(as_matrix(data))
     cycles = 1_000_000_000
 
-    seen: Dict[str, int] = {}
+    seen: dict[str, int] = {}
     loop = range(0, 0)
     for i in range(cycles):
         state = str(platform)

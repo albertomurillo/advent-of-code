@@ -1,5 +1,4 @@
 import sys
-from typing import List
 
 from aoc import as_parts
 
@@ -8,7 +7,7 @@ class CrateMover9000:
     def __init__(self):
         self.stacks = []
 
-    def parse_drawing(self, drawing: List[str]):
+    def parse_drawing(self, drawing: list[str]):
         self.stacks = [[] for _ in drawing[-1].split()]
         columns = list(range(1, len(self.stacks) * 4, 4))
 
@@ -18,18 +17,18 @@ class CrateMover9000:
                 if "A" <= line[column] <= "Z":
                     self.stacks[columns.index(column)].append(line[column])
 
-    def apply_procedure(self, procedure: List[str]):
+    def apply_procedure(self, procedure: list[str]):
         for step in procedure:
             amount, source, dest = map(int, step.split()[1::2])
             for _ in range(amount):
                 self.stacks[dest - 1].append(self.stacks[source - 1].pop())
 
-    def top_crates(self) -> List[str]:
+    def top_crates(self) -> list[str]:
         return [stack[-1] for stack in self.stacks]
 
 
 class CrateMover9001(CrateMover9000):
-    def apply_procedure(self, procedure: List[str]):
+    def apply_procedure(self, procedure: list[str]):
         for step in procedure:
             amount, source, dest = map(int, step.split()[1::2])
             self.stacks[dest - 1].extend(self.stacks[source - 1][-amount:])

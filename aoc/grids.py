@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from itertools import chain, pairwise
-from typing import Generator, Iterable, List, Tuple
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
 
 
 class Direction(complex):
@@ -24,7 +27,7 @@ W = Direction(0, -1)
 
 
 class Grid:
-    def __init__(self, data: List[List[str]] | Grid, repeating: bool = False):
+    def __init__(self, data: list[list[str]] | Grid, repeating: bool = False):
         if isinstance(data, Grid):
             self.data = data.data
         else:
@@ -40,7 +43,7 @@ class Grid:
     def n(self) -> int:
         return len(self.data[0])
 
-    def items(self) -> Iterable[Tuple[GridPoint, str]]:
+    def items(self) -> Iterable[tuple[GridPoint, str]]:
         for i, row in enumerate(self.data):
             for j, c in enumerate(row):
                 yield GridPoint(i, j), c
@@ -79,21 +82,20 @@ class GridPoint(complex):
         return int(self.imag)
 
     @property
-    def neighbors(self) -> List[GridPoint]:
+    def neighbors(self) -> list[GridPoint]:
         return [GridPoint(self + d) for d in (N, S, E, W)]
 
     def step(self, direction: Direction, offset: int = 1) -> GridPoint:
         return GridPoint(self + direction * offset)
 
-    def __iter__(self) -> Generator[int, None, None]:
-        for field in (self.row, self.col):
-            yield field
+    def __iter__(self) -> Generator[int]:
+        yield from (self.row, self.col)
 
     def __lt__(self, other: GridPoint) -> bool:
         return (self.real, self.imag) < (other.real, other.imag)
 
 
-def shoelace(points: List[GridPoint]) -> float:
+def shoelace(points: list[GridPoint]) -> float:
     # https://en.wikipedia.org/wiki/Shoelace_formula
     pairs = pairwise(chain(points, (points[0],)))
     return abs(sum(x1 * y2 - y1 * x2 for (x1, y1), (x2, y2) in pairs)) / 2
@@ -104,8 +106,8 @@ def manhattan(a: GridPoint, b: GridPoint) -> int:
     return abs(r.real) + abs(r.imag)
 
 
-def manhattan_all_pairs(values: List[GridPoint]) -> int:
-    def sum_axis(values: List[int]) -> int:
+def manhattan_all_pairs(values: list[GridPoint]) -> int:
+    def sum_axis(values: list[int]) -> int:
         acc = result = 0
         for i, v in enumerate(values):
             result += v * i - acc

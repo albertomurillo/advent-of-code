@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Tuple
 
 
 @dataclass(frozen=True, order=True)
@@ -17,7 +16,7 @@ class Range:
             other.start <= self.start <= self.stop <= other.stop
         )
 
-    def intersection(self, other: Range) -> Tuple[Range, Range, Range]:
+    def intersection(self, other: Range) -> tuple[Range, Range, Range]:
         if self.start > other.stop:
             return (Range(0, 0), Range(0, 0), self)
 

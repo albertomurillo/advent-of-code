@@ -1,10 +1,9 @@
 import sys
-from typing import List
 
 from aoc import as_parts
 
 
-def rows_above_reflection(mirror: List[str], smudges=0) -> int:
+def rows_above_reflection(mirror: list[str], smudges=0) -> int:
     for i in range(1, len(mirror)):
         mismatches = 0
         top_half = mirror[:i]

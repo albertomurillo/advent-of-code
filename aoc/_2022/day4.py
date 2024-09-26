@@ -1,12 +1,11 @@
 from __future__ import annotations
 
 import sys
-from typing import Tuple
 
 from aoc.ranges import Range
 
 
-def parse_ranges(data: str) -> Tuple[Range, Range]:
+def parse_ranges(data: str) -> tuple[Range, Range]:
     i1, i2 = data.split(",")
     return (parse_range(i1), parse_range(i2))
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Optional
 
 from aoc import as_parts
 from aoc.ranges import Range
@@ -14,12 +13,12 @@ class AlmanacMap:
     source: Range
     dest: Range
 
-    def to_dest(self, source: int) -> Optional[int]:
+    def to_dest(self, source: int) -> int | None:
         if source not in self.source:
             return None
         return self.dest.start + self.source.offset(source)
 
-    def to_dest_range(self, source: Range) -> Optional[Range]:
+    def to_dest_range(self, source: Range) -> Range | None:
         return Range(
             self.dest.start + self.source.offset(source.start),
             self.dest.start + self.source.offset(source.stop),
@@ -27,7 +26,7 @@ class AlmanacMap:
 
 
 class Almanac:
-    def __init__(self, maps: List[str]):
+    def __init__(self, maps: list[str]):
         self.maps = defaultdict(list)
         for map_ in maps:
             header, *lines = map_.splitlines()
@@ -47,7 +46,7 @@ class Almanac:
             source = self.lookup(maps, source)
         return source
 
-    def seeds_to_locations(self, seeds: Range) -> List[Range]:
+    def seeds_to_locations(self, seeds: Range) -> list[Range]:
         unprocessed = [seeds]
         for maps in self.maps.values():
             matched = []
@@ -66,7 +65,7 @@ class Almanac:
             unprocessed = matched + unmatched
         return unprocessed
 
-    def lookup(self, maps: List[AlmanacMap], source: int) -> int:
+    def lookup(self, maps: list[AlmanacMap], source: int) -> int:
         for map_ in maps:
             dest = map_.to_dest(source)
             if dest is not None:
@@ -85,14 +84,14 @@ def part2(data: str) -> int:
     seed_data, *map_data = as_parts(data)
     almanac = Almanac(map_data)
 
-    seed_ranges: List[Range] = []
+    seed_ranges: list[Range] = []
     range_data = [int(x) for x in seed_data.split()[1:]]
     for i in range(0, len(range_data), 2):
         start = range_data[i]
         size = range_data[i + 1]
         seed_ranges.append(Range(start, start + size))
 
-    location_ranges: List[Range] = []
+    location_ranges: list[Range] = []
     for seed_range in seed_ranges:
         location_ranges.extend(almanac.seeds_to_locations(seed_range))
 

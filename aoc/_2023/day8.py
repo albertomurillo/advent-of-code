@@ -2,14 +2,13 @@ import math
 import re
 import sys
 from itertools import cycle
-from typing import Dict, List
 
 
 class Map:
-    def __init__(self, data: List[str]):
+    def __init__(self, data: list[str]):
         self.directions = data[0]
 
-        self.nodes: Dict[str, Dict[str, str]] = {}
+        self.nodes: dict[str, dict[str, str]] = {}
         pattern = re.compile(r"(\w{3}) = \((\w{3}), (\w{3})\)")
         for element in data[2:]:
             node, left, right = pattern.match(element).groups()

@@ -6,7 +6,6 @@ import re
 import sys
 from copy import copy
 from dataclasses import dataclass
-from typing import List, Tuple
 
 from aoc import as_parts
 from aoc.ranges import Range
@@ -15,7 +14,7 @@ from aoc.ranges import Range
 class PartRange(dict[str, Range]):
     @property
     def combinations(self) -> int:
-        return math.prod((len(x) for x in self.values()))
+        return math.prod(len(x) for x in self.values())
 
 
 class Part(dict):
@@ -39,7 +38,7 @@ class Rule:
 @dataclass
 class Workflow:
     name: str
-    rules: List[Rule]
+    rules: list[Rule]
     default: str
 
 
@@ -57,8 +56,8 @@ class Workflows(dict[str, Workflow]):
 
         return workflow.name == "A"
 
-    def accept_range(self, pr: PartRange) -> List[PartRange]:
-        accepted: List[PartRange] = []
+    def accept_range(self, pr: PartRange) -> list[PartRange]:
+        accepted: list[PartRange] = []
 
         q = [("in", pr)]
         while q:
@@ -98,7 +97,7 @@ class Workflows(dict[str, Workflow]):
         return accepted
 
 
-def parse_input(data: str) -> Tuple[Workflows, List[Part]]:
+def parse_input(data: str) -> tuple[Workflows, list[Part]]:
     p1, p2 = as_parts(data)
 
     workflows = {(w := parse_workflow(line)).name: w for line in p1.splitlines()}

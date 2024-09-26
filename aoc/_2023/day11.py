@@ -1,27 +1,26 @@
 import sys
 from functools import cached_property
-from typing import List, Set
 
 from aoc import as_matrix
 from aoc.grids import Grid, GridPoint, manhattan_all_pairs
 
 
 class Universe(Grid):
-    def __init__(self, data: List[List[str]], expansion: int = 1):
+    def __init__(self, data: list[list[str]], expansion: int = 1):
         super().__init__(data)
         self.expansion = expansion
 
     @cached_property
-    def empty_rows(self) -> Set[int]:
+    def empty_rows(self) -> set[int]:
         return {i for i in range(self.m) if all(c == "." for c in self.data[i])}
 
     @cached_property
-    def empty_cols(self) -> Set[int]:
+    def empty_cols(self) -> set[int]:
         rotated = self.rotated()
         return {i for i in range(self.n) if all(c == "." for c in rotated.data[i])}
 
     @cached_property
-    def galaxies(self) -> List[GridPoint]:
+    def galaxies(self) -> list[GridPoint]:
         galaxies = []
 
         i_gaps = 0

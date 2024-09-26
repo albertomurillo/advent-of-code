@@ -1,10 +1,9 @@
 import sys
 from itertools import pairwise
-from typing import List
 
 
 class History:
-    def __init__(self, values: List[int]):
+    def __init__(self, values: list[int]):
         self._seqs = [values]
         seq = self._seqs[0]
         while not all(x == 0 for x in seq):

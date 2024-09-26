@@ -1,12 +1,11 @@
 import sys
-from typing import Dict, List, Tuple
 
 
 class FileSystem(dict):
-    def size(self) -> Tuple[int, List[Tuple[str, int]]]:
+    def size(self) -> tuple[int, list[tuple[str, int]]]:
         def helper(
-            name: str, root: Dict[str, int | dict], results: List[Tuple[str, int]]
-        ) -> Tuple[int, List[Tuple[str, int]]]:
+            name: str, root: dict[str, int | dict], results: list[tuple[str, int]]
+        ) -> tuple[int, list[tuple[str, int]]]:
             leafs = (v for v in root.values() if isinstance(v, int))
             childs = ((k, v) for k, v in root.items() if isinstance(v, dict))
             result = sum(leafs)

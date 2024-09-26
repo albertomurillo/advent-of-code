@@ -3,7 +3,6 @@ import sys
 from collections import deque
 from dataclasses import dataclass, field
 from itertools import count
-from typing import Dict, List, Set, Tuple
 
 
 @dataclass
@@ -20,7 +19,7 @@ class Queue:
     def high_pulses(self) -> int:
         return self._high_pulses
 
-    def push(self, item: Tuple[str, str, bool]) -> None:
+    def push(self, item: tuple[str, str, bool]) -> None:
         _, _, pulse = item
         if pulse:
             self._high_pulses += 1
@@ -28,7 +27,7 @@ class Queue:
             self._low_pulses += 1
         self._q.append(item)
 
-    def pop(self) -> Tuple[str, str, bool]:
+    def pop(self) -> tuple[str, str, bool]:
         return self._q.popleft()
 
     def __len__(self) -> int:
@@ -41,7 +40,7 @@ class Queue:
 @dataclass
 class Module:
     name: str
-    modules: List[str] = field(default_factory=list)
+    modules: list[str] = field(default_factory=list)
     pulse: bool = field(default=False)
 
     def send(self, q: Queue):
@@ -64,8 +63,8 @@ class FlipFlop(Module):
 
 @dataclass
 class Conjuction(Module):
-    low: Set[str] = field(default_factory=set)
-    high: Set[str] = field(default_factory=set)
+    low: set[str] = field(default_factory=set)
+    high: set[str] = field(default_factory=set)
 
     def add_input(self, module: str) -> None:
         self.low.add(module)
@@ -95,8 +94,8 @@ class Button(Module):
         self.send(q)
 
 
-def parse_input(data: List[str]) -> Dict[str, Module]:
-    module_map: Dict[str, Module] = {}
+def parse_input(data: list[str]) -> dict[str, Module]:
+    module_map: dict[str, Module] = {}
 
     # First pass
     for line in data:

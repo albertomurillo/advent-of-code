@@ -1,6 +1,5 @@
 import math
 import sys
-from typing import Set
 
 from aoc import as_matrix
 from aoc.grids import Direction, E, Grid, GridPoint, N, S, W
@@ -22,7 +21,7 @@ class Forest(Grid):
             next_tree = next_tree.step(direction)
         return score
 
-    def visible(self, tree: GridPoint, direction: Direction) -> Set[GridPoint]:
+    def visible(self, tree: GridPoint, direction: Direction) -> set[GridPoint]:
         trees = set()
         shortest = -math.inf
         while tree in self:

@@ -3,7 +3,7 @@ from __future__ import annotations
 import heapq
 from collections import defaultdict
 from collections.abc import Hashable
-from typing import Any, Protocol, Tuple
+from typing import Any, Protocol
 
 Key = Hashable
 
@@ -12,7 +12,7 @@ class PriorityQueue(Protocol):
     def push(self, key: Key, value: Any) -> None:
         pass
 
-    def pop(self) -> Tuple[Key, Any]:
+    def pop(self) -> tuple[Key, Any]:
         pass
 
     def __bool__(self) -> bool:
@@ -26,7 +26,7 @@ class MinHeap:
     def push(self, key: Key, value: Any) -> None:
         heapq.heappush(self._q, (key, value))
 
-    def pop(self) -> Tuple[Key, Any]:
+    def pop(self) -> tuple[Key, Any]:
         return heapq.heappop(self._q)
 
     def __bool__(self) -> bool:
@@ -42,7 +42,7 @@ class BucketQueue:
     def push(self, key: Key, value: Any) -> None:
         self._q[key].append(value)
 
-    def pop(self) -> Tuple[Key, Any]:
+    def pop(self) -> tuple[Key, Any]:
         key = min(self._q)
         val = self._q[key].pop()
         if not self._q[key]:

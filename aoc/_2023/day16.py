@@ -1,6 +1,5 @@
 import sys
 from collections import defaultdict
-from typing import Dict, List, Set, Tuple
 
 from aoc import as_matrix
 from aoc.grids import Direction, E, Grid, GridPoint, N, S, W
@@ -16,8 +15,8 @@ class Contraption(Grid):
     }
 
     def energized(self, start: GridPoint, direction: Direction) -> int:
-        energized: Dict[GridPoint, Set[Direction]] = defaultdict(set)
-        beams: List[Tuple[GridPoint, Direction]] = [(start, direction)]
+        energized: dict[GridPoint, set[Direction]] = defaultdict(set)
+        beams: list[tuple[GridPoint, Direction]] = [(start, direction)]
 
         while beams:
             tile, direction = beams.pop()
@@ -36,12 +35,12 @@ class Contraption(Grid):
         return len(energized)
 
 
-def part1(data: List[str]):
+def part1(data: list[str]):
     contraption = Contraption(as_matrix(data))
     return contraption.energized(GridPoint(0, 0), E)
 
 
-def part2(data: List[str]):
+def part2(data: list[str]):
     contraption = Contraption(as_matrix(data))
 
     result = 0

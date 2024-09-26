@@ -1,6 +1,5 @@
 import sys
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -17,7 +16,7 @@ class Cubes:
 @dataclass
 class Game:
     id: int
-    hands: List[Cubes]
+    hands: list[Cubes]
 
     def is_possible_with_bag(self, bag: Cubes) -> bool:
         for hand in self.hands:
