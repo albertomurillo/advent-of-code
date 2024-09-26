@@ -20,7 +20,6 @@ ignore = [
     "FBT001",  # Boolean-typed positional argument in function definition
     "FBT002",  # Boolean default positional argument in function definition
     "PERF102", # When using only the keys of a dict use the `keys()` method
-    "PERF401", # Use a list comprehension to create a transformed list
     "PLR2004", # Magic value used in comparison, consider replacing `5` with a constant variable
     "PLW2901", # `for` loop variable `cc` overwritten by assignment target
     "RET503",  # Missing explicit `return` at the end of function able to return non-`None` value

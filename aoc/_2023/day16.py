@@ -30,7 +30,10 @@ class Contraption(Grid):
             energized[tile].add(direction)
 
             for new_dir in self.reflections[self[tile]][direction]:
-                beams.append((tile.step(new_dir), new_dir))
+                beams.extend(
+                    (tile.step(new_dir), new_dir)
+                    for new_dir in self.reflections[self[tile]][direction]
+                )
 
         return len(energized)
 

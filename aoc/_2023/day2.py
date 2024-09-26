@@ -29,10 +29,7 @@ def parse_game(data: str) -> Game:
     game_data, hands_data = data.split(":")
     _, game_id = game_data.split()
 
-    hands = []
-    for hand_data in hands_data.split(";"):
-        hands.append(parse_hand(hand_data))
-
+    hands = [parse_hand(hand_data) for hand_data in hands_data.split(";")]
     return Game(id=int(game_id), hands=hands)
 
 
