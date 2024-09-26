@@ -12,7 +12,7 @@ class History:
 
     def extrapolate(self):
         self._seqs[-1].append(0)
-        for i in reversed(range(0, len(self._seqs) - 1)):
+        for i in reversed(range(len(self._seqs) - 1)):
             self._seqs[i].append(self._seqs[i][-1] + self._seqs[i + 1][-1])
 
     def __getitem__(self, index: int) -> int:

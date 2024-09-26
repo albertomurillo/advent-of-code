@@ -37,11 +37,11 @@ def part1(data: str) -> int:
     grid = Forest(Grid(as_matrix(data)))
     trees = set()
 
-    for row in range(0, grid.m):
+    for row in range(grid.m):
         trees |= grid.visible(GridPoint(row, 0), E)
         trees |= grid.visible(GridPoint(row, grid.n - 1), W)
 
-    for col in range(0, grid.n):
+    for col in range(grid.n):
         trees |= grid.visible(GridPoint(0, col), S)
         trees |= grid.visible(GridPoint(grid.m - 1, col), N)
 

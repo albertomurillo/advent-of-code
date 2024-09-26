@@ -48,7 +48,7 @@ def part2(data: str):
     cycles = 1_000_000_000
 
     seen: dict[str, int] = {}
-    loop = range(0, 0)
+    loop = range(0)
     for i in range(cycles):
         state = str(platform)
         if state in seen:
