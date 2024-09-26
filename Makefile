@@ -1,8 +1,8 @@
-all: format test lint
+all: format lint test
 
 format: deps
-	poetry run isort .
-	poetry run black .
+	poetry run ruff check --select I --fix
+	poetry run ruff format
 
 test: deps
 	poetry run pytest --cov
@@ -14,6 +14,10 @@ coverage: test
 deps:
 	poetry install --sync
 
+update:
+	scripts/poetry_update_deps.sh
+
 lint: deps
-	poetry run flake8 .
+	poetry run ruff check aoc
 	poetry run pylint aoc
+	poetry run pyright aoc

@@ -1,3 +1,6 @@
+[MAIN]
+jobs=0
+
 [MESSAGES CONTROL]
 disable=
     duplicate-code,
@@ -5,3 +8,4 @@ disable=
     missing-function-docstring,
     missing-module-docstring,
     too-few-public-methods,
+    use-yield-from,
