@@ -71,6 +71,11 @@ class Grid:
     def __str__(self) -> str:
         return "\n".join("".join(row) for row in self.data)
 
+    def __iter__(self) -> Generator[GridPoint]:
+        for i, row in enumerate(self.data):
+            for j, _ in enumerate(row):
+                yield GridPoint(i, j)
+
 
 class GridPoint(complex):
     @property
