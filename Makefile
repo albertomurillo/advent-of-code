@@ -17,7 +17,13 @@ deps:
 update:
 	scripts/poetry_update_deps.sh
 
-lint: deps
+lint: deps ruff pylint pyright
+
+ruff:
 	poetry run ruff check aoc
+
+pylint:
 	poetry run pylint aoc
+
+pyright:
 	poetry run pyright aoc
