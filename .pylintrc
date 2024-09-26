@@ -8,4 +8,3 @@ disable=
     missing-function-docstring,
     missing-module-docstring,
     too-few-public-methods,
-    use-yield-from,

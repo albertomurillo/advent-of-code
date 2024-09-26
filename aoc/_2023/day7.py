@@ -39,7 +39,8 @@ class Hand:
 
         for ss, oo in zip(
             (self._card_value(c) for c in self.cards),
-            (other._card_value(c) for c in other.cards), strict=False,
+            (self._card_value(c) for c in other.cards),
+            strict=False,
         ):
             if ss == oo:
                 continue
