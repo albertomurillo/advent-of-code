@@ -49,10 +49,10 @@ class Grid:
                 yield GridPoint(i, j), c
 
     def rotate(self) -> None:
-        self.data = [list(x) for x in (zip(*self.data[::-1]))]
+        self.data = [list(x) for x in (zip(*self.data[::-1], strict=False))]
 
     def rotated(self) -> Grid:
-        return Grid([list(x) for x in (zip(*self.data[::-1]))])
+        return Grid([list(x) for x in (zip(*self.data[::-1], strict=False))])
 
     def __contains__(self, key: GridPoint) -> bool:
         return self.repeating or (0 <= key.row < self.m and 0 <= key.col < self.n)
@@ -114,5 +114,5 @@ def manhattan_all_pairs(values: list[GridPoint]) -> int:
             acc += v
         return result
 
-    rows, cols = zip(*values)
+    rows, cols = zip(*values, strict=False)
     return sum_axis(sorted(rows)) + sum_axis(sorted(cols))

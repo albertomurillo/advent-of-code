@@ -14,7 +14,6 @@ ignore = [
 
     "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed in `value`
     "ARG002",  # Unused method argument: `sender`
-    "B905",    # [*] `zip()` without an explicit `strict=` parameter
     "E501",    # Line too long (92 > 88)
     "ERA001",  # Found commented-out code
     "FBT001",  # Boolean-typed positional argument in function definition

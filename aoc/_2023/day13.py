@@ -9,8 +9,8 @@ def rows_above_reflection(mirror: list[str], smudges: int = 0) -> int:
         top_half = mirror[:i]
         bottom_half = mirror[i:]
 
-        for top_line, bottom_line in zip(reversed(top_half), bottom_half):
-            for top_char, bottom_char in zip(top_line, bottom_line):
+        for top_line, bottom_line in zip(reversed(top_half), bottom_half, strict=False):
+            for top_char, bottom_char in zip(top_line, bottom_line, strict=False):
                 if top_char != bottom_char:
                     mismatches += 1
 
@@ -25,7 +25,7 @@ def part1(data: str) -> int:
     total = 0
     for mirror in mirrors:
         total += rows_above_reflection(mirror) * 100
-        rotated = ["".join(x) for x in (zip(*mirror[::-1]))]
+        rotated = ["".join(x) for x in (zip(*mirror[::-1], strict=False))]
         total += rows_above_reflection(rotated)
     return total
 
@@ -35,7 +35,7 @@ def part2(data: str) -> int:
     total = 0
     for mirror in mirrors:
         total += rows_above_reflection(mirror, smudges=1) * 100
-        rotated = ["".join(x) for x in (zip(*mirror[::-1]))]
+        rotated = ["".join(x) for x in (zip(*mirror[::-1], strict=False))]
         total += rows_above_reflection(rotated, smudges=1)
     return total
 

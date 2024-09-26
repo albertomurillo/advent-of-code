@@ -39,7 +39,7 @@ def part1(data: str) -> int:
     times = map(int, _times.split(":")[1].split())
     distances = map(int, _distances.split(":")[1].split())
 
-    races = [Race(time, distance) for time, distance in zip(times, distances)]
+    races = [Race(time, distance) for time, distance in zip(times, distances, strict=False)]
     return math.prod(race.ways_to_win() for race in races)
 
 
