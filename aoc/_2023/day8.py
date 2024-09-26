@@ -11,7 +11,9 @@ class Map:
         self.nodes: dict[str, dict[str, str]] = {}
         pattern = re.compile(r"(\w{3}) = \((\w{3}), (\w{3})\)")
         for element in data[2:]:
-            node, left, right = pattern.match(element).groups()
+            match = pattern.match(element)
+            assert match, "Invalid data"
+            node, left, right = match.groups()
             self.nodes[node] = {"L": left, "R": right}
 
     def steps_to_destination_suffix(self, start_node: str, end_node_suffix: str) -> int:

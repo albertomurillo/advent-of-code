@@ -35,6 +35,7 @@ def part2(data: str) -> int:
     b = 0
     for line in data.splitlines():
         m = pattern.match(line)
+        assert m, "Invalid data"
         amount = int(m.group(1), base=16)
         direction = m.group(2)
         p = p.step(directions[direction], amount)

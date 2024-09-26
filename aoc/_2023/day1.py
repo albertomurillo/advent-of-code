@@ -2,19 +2,21 @@ import re
 import sys
 
 
-def solution(data: str, digits: str) -> int:
-    values = {k: i % 9 + 1 for i, k in enumerate(digits.split("|"))}
-    values |= {k: 9 - i % 9 for i, k in enumerate(digits[::-1].split("|"))}
+def solution(data: str, pattern: str) -> int:
+    values = {k: i % 9 + 1 for i, k in enumerate(pattern.split("|"))}
+    values |= {k: 9 - i % 9 for i, k in enumerate(pattern[::-1].split("|"))}
 
-    p1 = re.compile(digits)
-    p2 = re.compile(digits[::-1])
+    p1 = re.compile(pattern)
+    p2 = re.compile(pattern[::-1])
 
     result = 0
     for line in data.splitlines():
         match = p1.search(line)
+        assert match, "Invalid data"
         result += values[match[0]] * 10
 
         match = p2.search(line[::-1])
+        assert match, "Invalid data"
         result += values[match[0]]
 
     return result

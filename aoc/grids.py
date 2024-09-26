@@ -106,7 +106,7 @@ def shoelace(points: list[GridPoint]) -> float:
     return abs(sum(x1 * y2 - y1 * x2 for (x1, y1), (x2, y2) in pairs)) / 2
 
 
-def manhattan(a: GridPoint, b: GridPoint) -> int:
+def manhattan(a: GridPoint, b: GridPoint) -> float:
     r = a - b
     return abs(r.real) + abs(r.imag)
 

@@ -6,8 +6,8 @@ import sys
 class Shape:
     def __init__(self, val: int) -> None:
         self.score = val
-        self.beats = None
-        self.beaten_by = None
+        self.beats: Shape
+        self.beaten_by: Shape
 
     def play(self, other: Shape) -> int:
         if self.beats == other:

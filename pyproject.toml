@@ -24,9 +24,4 @@ minversion = "6.0"
 addopts = "--import-mode importlib"
 
 [tool.pyright]
-reportArgumentType = false
-reportAttributeAccessIssue = false
-reportOptionalMemberAccess = false
-reportOptionalSubscript = false
-reportPossiblyUnboundVariable = false
 reportReturnType = false

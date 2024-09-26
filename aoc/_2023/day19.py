@@ -112,6 +112,7 @@ def parse_input(data: str) -> tuple[Workflows, list[Part]]:
 def parse_workflow(data: str) -> Workflow:
     pattern = re.compile(r"(\w+){(.+),(\w+)}")
     m = pattern.match(data)
+    assert m, "Invalid data"
     return Workflow(
         name=m.group(1),
         rules=[parse_rule(x) for x in m.group(2).split(",")],
@@ -122,12 +123,14 @@ def parse_workflow(data: str) -> Workflow:
 def parse_rule(data: str) -> Rule:
     pattern = re.compile(r"([xmas])([<>])(\d+):(\w+)")
     m = pattern.match(data)
+    assert m, "Invalid data"
     return Rule(field=m.group(1), op=m.group(2), value=int(m.group(3)), dest=m.group(4))
 
 
 def parse_part(data: str) -> Part:
     pattern = re.compile(r"^{x=(\d+),m=(\d+),a=(\d+),s=(\d+)}$")
     m = pattern.match(data)
+    assert m, "Invalid data"
     return Part(
         [
             ("x", int(m.group(1))),

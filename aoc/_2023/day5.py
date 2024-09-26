@@ -50,6 +50,7 @@ class Almanac:
         unprocessed = [seeds]
         for maps in self.maps.values():
             matched = []
+            unmatched = []
             for map_ in maps:
                 unmatched = []
                 while unprocessed:

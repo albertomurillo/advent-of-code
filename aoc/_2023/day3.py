@@ -102,12 +102,12 @@ class Schematic(Grid):
         return gears
 
 
-def part1(data: list[str]) -> int:
+def part1(data: str) -> int:
     schematic = Schematic(as_matrix(data))
     return sum(x.value for x in schematic.part_numbers)
 
 
-def part2(data: list[str]) -> int:
+def part2(data: str) -> int:
     schematic = Schematic(as_matrix(data))
     return sum(gear.ratio for gear in schematic.gears.values())
 

@@ -9,14 +9,11 @@ Key = Hashable
 
 
 class PriorityQueue(Protocol):
-    def push(self, key: Key, value: Any) -> None:
-        pass
+    def push(self, key: Key, value: Any) -> None: ...
 
-    def pop(self) -> tuple[Key, Any]:
-        pass
+    def pop(self) -> tuple[Key, Any]: ...
 
-    def __bool__(self) -> bool:
-        pass
+    def __bool__(self) -> bool: ...
 
 
 class MinHeap:
@@ -37,7 +34,7 @@ class BucketQueue:
     """https://en.wikipedia.org/wiki/Bucket_queue"""
 
     def __init__(self) -> None:
-        self._q: dict[Key, list] = defaultdict(list)
+        self._q = defaultdict(list)
 
     def push(self, key: Key, value: Any) -> None:
         self._q[key].append(value)

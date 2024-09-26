@@ -1,4 +1,5 @@
 import sys
+from typing import Any
 
 
 class FileSystem(dict):
@@ -21,7 +22,7 @@ class FileSystem(dict):
 
 
 def parse_fs(data: str) -> FileSystem:
-    tree = {"/": {}}
+    tree: dict[str, Any] = {"/": {}}
     stack = []
     cwd = tree
     _ls = False
