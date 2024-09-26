@@ -3,7 +3,7 @@ from functools import cached_property
 
 
 class Card:
-    def __init__(self, data: str):
+    def __init__(self, data: str) -> None:
         _, numbers = data.split(":")
         winning, numbers = numbers.split("|")
         self.winning = set(winning.strip().split())
@@ -34,7 +34,7 @@ def part2(data: str) -> int:
     return sum(counter)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

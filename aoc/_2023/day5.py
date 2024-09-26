@@ -26,7 +26,7 @@ class AlmanacMap:
 
 
 class Almanac:
-    def __init__(self, maps: list[str]):
+    def __init__(self, maps: list[str]) -> None:
         self.maps = defaultdict(list)
         for map_ in maps:
             header, *lines = map_.splitlines()
@@ -98,7 +98,7 @@ def part2(data: str) -> int:
     return min(location_ranges).start
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

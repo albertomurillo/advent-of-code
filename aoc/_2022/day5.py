@@ -4,10 +4,10 @@ from aoc import as_parts
 
 
 class CrateMover9000:
-    def __init__(self):
+    def __init__(self) -> None:
         self.stacks = []
 
-    def parse_drawing(self, drawing: list[str]):
+    def parse_drawing(self, drawing: list[str]) -> None:
         self.stacks = [[] for _ in drawing[-1].split()]
         columns = list(range(1, len(self.stacks) * 4, 4))
 
@@ -17,7 +17,7 @@ class CrateMover9000:
                 if "A" <= line[column] <= "Z":
                     self.stacks[columns.index(column)].append(line[column])
 
-    def apply_procedure(self, procedure: list[str]):
+    def apply_procedure(self, procedure: list[str]) -> None:
         for step in procedure:
             amount, source, dest = map(int, step.split()[1::2])
             for _ in range(amount):
@@ -28,7 +28,7 @@ class CrateMover9000:
 
 
 class CrateMover9001(CrateMover9000):
-    def apply_procedure(self, procedure: list[str]):
+    def apply_procedure(self, procedure: list[str]) -> None:
         for step in procedure:
             amount, source, dest = map(int, step.split()[1::2])
             self.stacks[dest - 1].extend(self.stacks[source - 1][-amount:])
@@ -51,7 +51,7 @@ def part2(data: str) -> str:
     return "".join(crane.top_crates())
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

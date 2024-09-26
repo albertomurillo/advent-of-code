@@ -7,11 +7,11 @@ def hash_(s: str) -> int:
     return reduce(lambda total, c: ((total + ord(c)) * 17) % 256, s, 0)
 
 
-def part1(data: str):
+def part1(data: str) -> int:
     return sum(hash_(step) for step in data.rstrip().split(","))
 
 
-def part2(data: str):
+def part2(data: str) -> int:
     boxes = [OrderedDict() for _ in range(256)]
 
     for step in data.rstrip().split(","):
@@ -32,7 +32,7 @@ def part2(data: str):
     return total
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

@@ -3,7 +3,7 @@ import inspect
 from aoc._2023.day1 import part1, part2
 
 
-def test_part1():
+def test_part1() -> None:
     data = inspect.cleandoc(
         """
         1abc2
@@ -15,7 +15,7 @@ def test_part1():
     assert part1(data) == 142
 
 
-def test_part2():
+def test_part2() -> None:
     data = inspect.cleandoc(
         """
         two1nine

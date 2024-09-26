@@ -4,7 +4,7 @@ from itertools import repeat
 
 
 class SpringConditions:
-    def __init__(self, data: list[str], folded_in_parts: int = 1):
+    def __init__(self, data: list[str], folded_in_parts: int = 1) -> None:
         self.records: list[tuple[str, list[int]]] = []
         for line in data:
             s, g = line.split()
@@ -39,7 +39,7 @@ class SpringConditions:
         return sum(v for (gi, _, _), v in cstates.items() if gi == len_groups)
 
 
-def part1(data: str):
+def part1(data: str) -> int:
     scr = SpringConditions(data.splitlines())
     return sum(scr.matches(springs, groups) for springs, groups in scr.records)
 
@@ -49,7 +49,7 @@ def part2(data: str) -> int:
     return sum(scr.matches(springs, groups) for springs, groups in scr.records)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

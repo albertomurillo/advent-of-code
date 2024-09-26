@@ -5,7 +5,7 @@ from itertools import cycle
 
 
 class Map:
-    def __init__(self, data: list[str]):
+    def __init__(self, data: list[str]) -> None:
         self.directions = data[0]
 
         self.nodes: dict[str, dict[str, str]] = {}
@@ -43,7 +43,7 @@ def part2(data: str) -> int:
     return math.lcm(*steps)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

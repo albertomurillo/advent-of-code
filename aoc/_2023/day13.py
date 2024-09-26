@@ -3,7 +3,7 @@ import sys
 from aoc import as_parts
 
 
-def rows_above_reflection(mirror: list[str], smudges=0) -> int:
+def rows_above_reflection(mirror: list[str], smudges: int = 0) -> int:
     for i in range(1, len(mirror)):
         mismatches = 0
         top_half = mirror[:i]
@@ -40,7 +40,7 @@ def part2(data: str) -> int:
     return total
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

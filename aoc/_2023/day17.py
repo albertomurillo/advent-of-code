@@ -15,7 +15,9 @@ class State(NamedTuple):
 
 
 class Solution(Graph):
-    def dijkstra(self, start, stop, min_steps, max_steps) -> int:
+    def dijkstra(
+        self, start: GridPoint, stop: GridPoint, min_steps: int, max_steps: int
+    ) -> int:
         s: State
         q = BucketQueue()
         q.push(0, State(start, E, 0))
@@ -57,7 +59,7 @@ class Solution(Graph):
         return -1
 
 
-def part1(data: str):
+def part1(data: str) -> int:
     grid = Grid(as_matrix(data))
     start = GridPoint(0, 0)
     target = GridPoint(grid.m - 1, grid.n - 1)
@@ -66,7 +68,7 @@ def part1(data: str):
     return graph.dijkstra(start, target, 0, 3)
 
 
-def part2(data: str):
+def part2(data: str) -> int:
     grid = Grid(as_matrix(data))
     start = GridPoint(0, 0)
     target = GridPoint(grid.m - 1, grid.n - 1)
@@ -75,7 +77,7 @@ def part2(data: str):
     return graph.dijkstra(start, target, 4, 10)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

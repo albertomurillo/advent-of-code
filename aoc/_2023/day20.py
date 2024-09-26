@@ -43,17 +43,17 @@ class Module:
     modules: list[str] = field(default_factory=list)
     pulse: bool = field(default=False)
 
-    def send(self, q: Queue):
+    def send(self, q: Queue) -> None:
         for receiver in self.modules:
             q.push((self.name, receiver, self.pulse))
 
-    def receive(self, q: Queue, sender: str, pulse: bool):
+    def receive(self, q: Queue, sender: str, pulse: bool) -> None:
         pass
 
 
 @dataclass
 class FlipFlop(Module):
-    def receive(self, q: Queue, sender: str, pulse: bool):
+    def receive(self, q: Queue, sender: str, pulse: bool) -> None:
         if pulse:
             return
 
@@ -69,7 +69,7 @@ class Conjuction(Module):
     def add_input(self, module: str) -> None:
         self.low.add(module)
 
-    def receive(self, q: Queue, sender: str, pulse: bool):
+    def receive(self, q: Queue, sender: str, pulse: bool) -> None:
         if pulse:
             self.low.discard(sender)
             self.high.add(sender)
@@ -83,14 +83,14 @@ class Conjuction(Module):
 
 @dataclass
 class Broadcaster(Module):
-    def receive(self, q: Queue, sender: str, pulse: bool):
+    def receive(self, q: Queue, sender: str, pulse: bool) -> None:
         self.pulse = pulse
         self.send(q)
 
 
 @dataclass
 class Button(Module):
-    def push(self, q: Queue):
+    def push(self, q: Queue) -> None:
         self.send(q)
 
 
@@ -178,7 +178,7 @@ def part2(data: str) -> int:
     return math.lcm(*cycles)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

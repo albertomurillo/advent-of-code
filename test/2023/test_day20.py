@@ -13,5 +13,5 @@ data = inspect.cleandoc(
 )
 
 
-def test_part1():
+def test_part1() -> None:
     assert part1(data) == 32000000

@@ -13,11 +13,11 @@ data = inspect.cleandoc(
 )
 
 
-def test_part1():
+def test_part1() -> None:
     got = part1(data)
     assert got == 21
 
 
-def test_part2():
+def test_part2() -> None:
     got = part2(data)
     assert got == 8

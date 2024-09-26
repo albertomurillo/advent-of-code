@@ -20,7 +20,7 @@ class PriorityQueue(Protocol):
 
 
 class MinHeap:
-    def __init__(self):
+    def __init__(self) -> None:
         self._q = []
 
     def push(self, key: Key, value: Any) -> None:
@@ -36,7 +36,7 @@ class MinHeap:
 class BucketQueue:
     """https://en.wikipedia.org/wiki/Bucket_queue"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._q: dict[Key, list] = defaultdict(list)
 
     def push(self, key: Key, value: Any) -> None:

@@ -93,7 +93,7 @@ def part2(data: str, steps: int) -> int:
     )
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data, 64)}")
     print(f"part 2: {part2(data, 26501365)}")

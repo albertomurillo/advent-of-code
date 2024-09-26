@@ -33,7 +33,7 @@ def parse_game(data: str) -> Game:
     return Game(id=int(game_id), hands=hands)
 
 
-def parse_hand(data: str):
+def parse_hand(data: str) -> Cubes:
     cubes = Cubes()
     for cube_data in data.split(","):
         count, color = cube_data.split()
@@ -60,7 +60,7 @@ def part2(data: str) -> int:
     return sum(cube.power for cube in cubes)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

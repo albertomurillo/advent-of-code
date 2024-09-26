@@ -12,12 +12,12 @@ DistanceFn = Callable[[Edge, Edge], Distance]
 
 
 class Graph:
-    def __init__(self, graph: Graph = None):
+    def __init__(self, graph: Graph = None) -> None:
         self.edges = graph.edges if graph is not None else defaultdict(dict)
         self.costs = {}
         self.parents = {}
 
-    def add_vertex(self, e1: Edge, e2: Edge, w=0):
+    def add_vertex(self, e1: Edge, e2: Edge, w: int = 0) -> None:
         self.edges[e1][e2] = w
 
     def shortest_path(
@@ -25,8 +25,8 @@ class Graph:
         start: Edge,
         stop: Edge = None,
         heuristic_fn: DistanceFn = None,
-    ):
-        def f(n) -> int:
+    ) -> None:
+        def f(n: Edge) -> int:
             return self.costs[n] + heuristics[n]
 
         self.costs = {start: 0}

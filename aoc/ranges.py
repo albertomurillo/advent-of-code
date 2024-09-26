@@ -41,8 +41,8 @@ class Range:
     def __bool__(self) -> bool:
         return bool(len(self))
 
-    def __contains__(self, item):
+    def __contains__(self, item: int) -> bool:
         return self.start <= item < self.stop
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.stop - self.start

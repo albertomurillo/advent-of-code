@@ -52,7 +52,7 @@ def part2(data: str) -> int:
     return race.ways_to_win()
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

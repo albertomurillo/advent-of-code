@@ -112,7 +112,7 @@ def part2(data: list[str]) -> int:
     return sum(gear.ratio for gear in schematic.gears.values())
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

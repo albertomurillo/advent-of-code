@@ -29,9 +29,9 @@ maze_2 = inspect.cleandoc(
 )
 
 
-def test_part1():
+def test_part1() -> None:
     assert part1(maze_1) == 8
 
 
-def test_part2():
+def test_part2() -> None:
     assert part2(maze_2) == 10

@@ -6,7 +6,7 @@ from aoc.grids import Grid, GridPoint, manhattan_all_pairs
 
 
 class Universe(Grid):
-    def __init__(self, data: list[list[str]], expansion: int = 1):
+    def __init__(self, data: list[list[str]], expansion: int = 1) -> None:
         super().__init__(data)
         self.expansion = expansion
 
@@ -48,17 +48,17 @@ class Universe(Grid):
         return galaxies
 
 
-def part1(data: str):
+def part1(data: str) -> int:
     universe = Universe(as_matrix(data), expansion=2)
     return manhattan_all_pairs(universe.galaxies)
 
 
-def part2(data: str):
+def part2(data: str) -> int:
     universe = Universe(as_matrix(data), expansion=1_000_000)
     return manhattan_all_pairs(universe.galaxies)
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

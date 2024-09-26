@@ -5,7 +5,7 @@ from aoc.grids import Grid
 
 
 class Platform(Grid):
-    def tilt_north(self):
+    def tilt_north(self) -> None:
         for col in range(self.n):
             empty_spaces, empty_idx = [], 0
             for i in range(self.m):
@@ -31,19 +31,19 @@ class Platform(Grid):
                     total += self.m - i
         return total
 
-    def cycle(self):
+    def cycle(self) -> None:
         for _ in range(4):
             self.tilt_north()
             self.rotate()
 
 
-def part1(data: str):
+def part1(data: str) -> int:
     platform = Platform(as_matrix(data))
     platform.tilt_north()
     return platform.load()
 
 
-def part2(data: str):
+def part2(data: str) -> int:
     platform = Platform(as_matrix(data))
     cycles = 1_000_000_000
 
@@ -64,7 +64,7 @@ def part2(data: str):
     return platform.load()
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")

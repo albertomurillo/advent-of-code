@@ -13,9 +13,9 @@ data = inspect.cleandoc(
 )
 
 
-def test_part1():
+def test_part1() -> None:
     assert part1(data) == 8
 
 
-def test_part2():
+def test_part2() -> None:
     assert part2(data) == 2286

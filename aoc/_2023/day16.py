@@ -38,12 +38,12 @@ class Contraption(Grid):
         return len(energized)
 
 
-def part1(data: list[str]):
+def part1(data: list[str]) -> int:
     contraption = Contraption(as_matrix(data))
     return contraption.energized(GridPoint(0, 0), E)
 
 
-def part2(data: list[str]):
+def part2(data: list[str]) -> int:
     contraption = Contraption(as_matrix(data))
 
     result = 0
@@ -59,7 +59,7 @@ def part2(data: list[str]):
     return result
 
 
-def main():
+def main() -> None:
     data = sys.stdin.read()
     print(f"part 1: {part1(data)}")
     print(f"part 2: {part2(data)}")
