@@ -120,7 +120,7 @@ def parse_input(data: list[str]) -> dict[str, Module]:
             name = name[1:]
 
         for destination in destinations:
-            m = module_map.get(destination, None)
+            m = module_map.get(destination)
             if isinstance(m, Conjuction):
                 m.add_input(name)
 

@@ -1,4 +1,4 @@
-fix = false
+fix = true
 target-version = "py312"
 
 [lint]
@@ -27,7 +27,6 @@ ignore = [
     "RET503",  # Missing explicit `return` at the end of function able to return non-`None` value
     "RUF012",  # Mutable class attributes should be annotated with `typing.ClassVar`
     "S101",    # Use of `assert` detected
-    "SIM910",  # [*] Use `module_map.get(destination)` instead of `module_map.get(destination, None)`
     "SLF001",  # Private member accessed: `_card_value`
     "T201",    # `print` found
 ]
