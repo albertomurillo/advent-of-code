@@ -19,6 +19,9 @@ update:
 
 lint: deps ruff pylint pyright
 
+watch:
+	poetry run pytest -f test
+
 ruff:
 	poetry run ruff check aoc
 

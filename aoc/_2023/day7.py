@@ -46,6 +46,8 @@ class Hand:
                 continue
             return ss < oo
 
+        raise ValueError
+
 
 def part1(data: str) -> int:
     _data = data.splitlines()
