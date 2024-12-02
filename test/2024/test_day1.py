@@ -4,13 +4,13 @@ from aoc._2024.day1 import part1, part2
 
 data = inspect.cleandoc(
     """
-        3   4
-        4   3
-        2   5
-        1   3
-        3   9
-        3   3
-        """,
+    3   4
+    4   3
+    2   5
+    1   3
+    3   9
+    3   3
+    """
 )
 
 
