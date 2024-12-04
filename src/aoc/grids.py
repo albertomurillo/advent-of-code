@@ -24,6 +24,10 @@ N = Direction(-1, 0)
 S = Direction(1, 0)
 E = Direction(0, 1)
 W = Direction(0, -1)
+NE = Direction(-1, 1)
+NW = Direction(-1, -1)
+SE = Direction(1, 1)
+SW = Direction(1, -1)
 
 
 class Grid:
@@ -88,7 +92,43 @@ class GridPoint(complex):
 
     @property
     def neighbors(self) -> list[GridPoint]:
-        return [GridPoint(self + d) for d in (N, S, E, W)]
+        return [self.n, self.s, self.e, self.w]
+
+    @property
+    def x_neighbors(self) -> list[GridPoint]:
+        return [self.nw, self.sw, self.ne, self.se]
+
+    @property
+    def n(self) -> GridPoint:
+        return self.step(N)
+
+    @property
+    def s(self) -> GridPoint:
+        return self.step(S)
+
+    @property
+    def e(self) -> GridPoint:
+        return self.step(E)
+
+    @property
+    def w(self) -> GridPoint:
+        return self.step(W)
+
+    @property
+    def ne(self) -> GridPoint:
+        return self.step(NE)
+
+    @property
+    def nw(self) -> GridPoint:
+        return self.step(NW)
+
+    @property
+    def se(self) -> GridPoint:
+        return self.step(SE)
+
+    @property
+    def sw(self) -> GridPoint:
+        return self.step(SW)
 
     def step(self, direction: Direction, offset: int = 1) -> GridPoint:
         return GridPoint(self + direction * offset)
