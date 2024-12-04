@@ -1,32 +1,32 @@
 all: format lint test
 
 format: deps
-	poetry run ruff check --select I --fix
-	poetry run ruff format
+	uv run ruff check --select I --fix
+	uv run ruff format
 
 test: deps
-	poetry run pytest --cov
+	uv run pytest --cov
 
 coverage: test
-	poetry run coverage html
+	uv run coverage html
 	open htmlcov/index.html
 
 deps:
-	poetry install --sync
+	uv sync
 
 update:
-	scripts/poetry_update_deps.sh
+	uv lock --upgrade
 
 lint: deps ruff pylint pyright
 
 watch:
-	poetry run pytest -f test
+	uv run pytest -f
 
 ruff:
-	poetry run ruff check aoc
+	uv run ruff check
 
 pylint:
-	poetry run pylint aoc
+	uv run pylint src
 
 pyright:
-	poetry run pyright aoc
+	uv run pyright src
