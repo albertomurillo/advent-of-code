@@ -5,14 +5,7 @@ from aoc.grids import Grid
 def as_columns(
     data: str,
 ) -> tuple[list[str], list[str]]:
-    l1 = []
-    l2 = []
-    for line in data.splitlines():
-        a, b = line.split()
-        l1.append(a)
-        l2.append(b)
-
-    return l1, l2
+    return zip(*map(str.split, data.splitlines()), strict=True)
 
 
 def as_graph(grid: Grid) -> Graph:
