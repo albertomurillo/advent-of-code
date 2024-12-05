@@ -29,3 +29,11 @@ def as_matrix(data: str) -> list[list[str]]:
 
 def as_parts(data: str) -> list[str]:
     return [x.rstrip("\n") for x in data.split("\n\n")]
+
+
+def as_lines(args: list[str]) -> list[list[str]]:
+    return [x.splitlines() for x in args]
+
+
+def as_ints(args: list[str]) -> list[int]:
+    return [int(x) for x in args]
