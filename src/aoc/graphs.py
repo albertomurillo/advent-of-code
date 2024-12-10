@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from collections import defaultdict
-from collections.abc import Callable, Hashable, Iterable
+from collections.abc import Callable, Generator, Hashable, Iterable
 
 from aoc.heaps import BucketQueue
 
@@ -62,3 +62,8 @@ class Graph:
             parent = self.parents[current]
             yield parent
             current = parent
+
+    def bfs(self, start: Edge) -> Generator[Edge]:
+        yield start
+        for edge in self.edges[start]:
+            yield from self.bfs(edge)
