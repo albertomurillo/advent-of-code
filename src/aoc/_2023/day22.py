@@ -4,12 +4,17 @@ import sys
 from collections import deque
 from contextlib import contextmanager
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 SPACE: dict[Cube, Brick] = {}
 
 
 @contextmanager
-def forked_space():  # noqa: ANN202
+def forked_space() -> Generator:
+    # pylint: disable=global-statement
     global SPACE  # noqa: PLW0603
     space = SPACE.copy()
     try:

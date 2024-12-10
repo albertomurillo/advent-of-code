@@ -8,8 +8,8 @@ Frequency = str
 FrequencyMap = dict[Frequency, list[Point]]
 
 
-def next_point(point: Point, vector: Vector) -> Point:
-    return point[0] + vector[0], point[1] + vector[1]
+def next_point(p: Point, v: Vector) -> Point:
+    return p[0] + v[0], p[1] + v[1]
 
 
 def vector(p1: Point, p2: Point) -> Vector:

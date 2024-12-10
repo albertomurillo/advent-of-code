@@ -30,11 +30,6 @@ SE = Direction(1, 1)
 SW = Direction(1, -1)
 
 
-class Vector(complex):
-    def reversed(self):
-        return self * -1
-
-
 class Grid:
     def __init__(self, data: list[list[str]] | Grid, repeating: bool = False) -> None:
         if isinstance(data, Grid):

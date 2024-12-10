@@ -18,7 +18,7 @@ class HikingMap(Grid):
         return (k for k, v in self.items() if v == "0")
 
     def peaks(self, trailhead: GridPoint) -> list[GridPoint]:
-        return [e for e in self.graph.bfs(trailhead) if self[e] == "9"]  # type: ignore  # noqa: PGH003
+        return [e for e in self.graph.bfs(trailhead) if self[e] == "9"]  # type: ignore
 
     def score(self, trailhead: GridPoint) -> int:
         return len(set(self.peaks(trailhead)))
