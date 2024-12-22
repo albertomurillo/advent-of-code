@@ -1,3 +1,4 @@
+import math
 import sys
 from collections import deque
 from functools import cache
@@ -5,13 +6,13 @@ from functools import cache
 
 @cache
 def transform(stone: int) -> list[int]:
-    s = str(stone)
-    if s == "0":
+    if stone == 0:
         return [1]
 
-    idx, mod = divmod(len(s), 2)
-    if mod == 0:
-        return [int(s[0:idx]), int(s[idx:])]
+    stone_len = int(math.log10(stone)) + 1
+    if stone_len % 2 == 0:
+        p = 10 ** (stone_len / 2)
+        return list(map(int, divmod(stone, p)))
 
     return [stone * 2024]
 
