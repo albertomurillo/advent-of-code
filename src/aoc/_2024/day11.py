@@ -44,8 +44,8 @@ def part2(data: str, blinks: int) -> int:
 
 def main() -> None:
     data = sys.stdin.read()
-    print(f"part 1: {part1(data,25)}")
-    print(f"part 2: {part2(data,75)}")
+    print(f"part 1: {part1(data, 25)}")
+    print(f"part 2: {part2(data, 75)}")
 
 
 if __name__ == "__main__":
