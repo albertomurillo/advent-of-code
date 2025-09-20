@@ -1,6 +1,9 @@
 import inspect
 
+import pytest
+
 from aoc._2022.day7 import part1, part2
+from test import read_input
 
 data = inspect.cleandoc(
     """
@@ -31,11 +34,20 @@ data = inspect.cleandoc(
 )
 
 
-def test_part1() -> None:
-    got = part1(data)
-    assert got == 95437
+class TestFast:
+    def test_part1(self) -> None:
+        got = part1(data)
+        assert got == 95437
+
+    def test_part2(self) -> None:
+        got = part2(data)
+        assert got == 24933642
 
 
-def test_part2() -> None:
-    got = part2(data)
-    assert got == 24933642
+@pytest.mark.slow
+class TestSlow:
+    def test_part1(self) -> None:
+        assert part1(read_input(2022, 7)) == 1770595
+
+    def test_part2(self) -> None:
+        assert part2(read_input(2022, 7)) == 2195372

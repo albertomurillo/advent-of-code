@@ -1,38 +1,50 @@
 import inspect
 
+import pytest
+
 from aoc._2023.day8 import part1, part2
+from test import read_input
 
 
-def test_part1() -> None:
-    data = inspect.cleandoc(
+class TestFast:
+    def test_part1(self) -> None:
+        data = inspect.cleandoc(
+            """
+            RL
+
+            AAA = (BBB, CCC)
+            BBB = (DDD, EEE)
+            CCC = (ZZZ, GGG)
+            DDD = (DDD, DDD)
+            EEE = (EEE, EEE)
+            GGG = (GGG, GGG)
+            ZZZ = (ZZZ, ZZZ)
         """
-        RL
+        )
+        assert part1(data) == 2
 
-        AAA = (BBB, CCC)
-        BBB = (DDD, EEE)
-        CCC = (ZZZ, GGG)
-        DDD = (DDD, DDD)
-        EEE = (EEE, EEE)
-        GGG = (GGG, GGG)
-        ZZZ = (ZZZ, ZZZ)
-    """
-    )
-    assert part1(data) == 2
+    def test_part2(self) -> None:
+        data = inspect.cleandoc(
+            """
+            LR
 
-
-def test_part2() -> None:
-    data = inspect.cleandoc(
+            11A = (11B, XXX)
+            11B = (XXX, 11Z)
+            11Z = (11B, XXX)
+            22A = (22B, XXX)
+            22B = (22C, 22C)
+            22C = (22Z, 22Z)
+            22Z = (22B, 22B)
+            XXX = (XXX, XXX)
         """
-        LR
+        )
+        assert part2(data) == 6
 
-        11A = (11B, XXX)
-        11B = (XXX, 11Z)
-        11Z = (11B, XXX)
-        22A = (22B, XXX)
-        22B = (22C, 22C)
-        22C = (22Z, 22Z)
-        22Z = (22B, 22B)
-        XXX = (XXX, XXX)
-    """
-    )
-    assert part2(data) == 6
+
+@pytest.mark.slow
+class TestSlow:
+    def test_part1(self) -> None:
+        assert part1(read_input(2023, 8)) == 18827
+
+    def test_part2(self) -> None:
+        assert part2(read_input(2023, 8)) == 20220305520997

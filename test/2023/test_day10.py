@@ -1,6 +1,9 @@
 import inspect
 
+import pytest
+
 from aoc._2023.day10 import part1, part2
+from test import read_input
 
 maze_1 = inspect.cleandoc(
     """
@@ -29,9 +32,18 @@ maze_2 = inspect.cleandoc(
 )
 
 
-def test_part1() -> None:
-    assert part1(maze_1) == 8
+class TestFast:
+    def test_part1(self) -> None:
+        assert part1(maze_1) == 8
+
+    def test_part2(self) -> None:
+        assert part2(maze_2) == 10
 
 
-def test_part2() -> None:
-    assert part2(maze_2) == 10
+@pytest.mark.slow
+class TestSlow:
+    def test_part1(self) -> None:
+        assert part1(read_input(2023, 10)) == 6738
+
+    def test_part2(self) -> None:
+        assert part2(read_input(2023, 10)) == 579
