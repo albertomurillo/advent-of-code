@@ -5,25 +5,25 @@ description = "Advent of Code Solutions"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "more-itertools>=10.5.0",
+    "more-itertools>=10.8.0",
 ]
 
 [dependency-groups]
 dev = [
-    "pylint>=3.3.2",
-    "pyright>=1.1.389",
-    "pytest-cov>=6.0.0",
-    "pytest-xdist>=3.6.1",
-    "pytest>=8.3.4",
-    "ruff>=0.8.1",
+    "pylint>=3.3.8",
+    "pyright>=1.1.405",
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.13.1",
 ]
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.19,<0.9.0"]
+build-backend = "uv_build"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/aoc"]
+[tool.uv.build-backend]
+module-name = "aoc"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

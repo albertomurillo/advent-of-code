@@ -15,7 +15,7 @@ deps:
 	uv sync
 
 update:
-	uv lock --upgrade
+	./scripts/uv_bump.py
 
 lint: deps ruff pylint pyright
 
