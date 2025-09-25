@@ -1,4 +1,38 @@
+import json
+import re
+from collections import defaultdict
+from pathlib import Path
+
 import pytest
+
+_NODEID_RE = re.compile(
+    r"^test/(\d{4})/test_day(\d+)\.py::([^:]+?)::test_part(\d+)(?:\[.*\])?$"
+)
+
+
+def _parse_nodeid(nodeid: str) -> tuple[str, str, str, str]:
+    m = _NODEID_RE.match(nodeid)
+    if not m:
+        msg = f"invalid nodeid: {nodeid!r}"
+        raise ValueError(msg)
+    year = m.group(1)
+    day = m.group(2)
+    cls = m.group(3)
+    part = m.group(4)
+    return year, day, cls, part
+
+
+def _load_durations(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    try:
+        text = path.read_text(encoding="utf8")
+    except OSError:
+        return {}
+    try:
+        return json.loads(text) or {}
+    except json.JSONDecodeError:
+        return {}
 
 
 @pytest.hookimpl(trylast=True)
@@ -9,14 +43,15 @@ def pytest_terminal_summary(
 ) -> None:
     tr = terminalreporter
 
-    # Display the custom report only if a certain verbosity is set.
-    if tr.verbosity < 1:
-        return
-
-    tr.ensure_newline()
-    tr.section("Test Durations (ms)", sep="=", yellow=True)
+    new_results = defaultdict(lambda: defaultdict(dict))
     reports: list[pytest.TestReport] = tr.stats.get("passed", [])
-    reports.sort(key=lambda x: x.duration, reverse=True)
     for report in reports:
-        tr.write_line(f"{report.duration * 1000:8.2f}ms  {report.nodeid}")
-    tr.section("End of Test Durations (ms)", sep="=", yellow=True)
+        year, day, cls, part = _parse_nodeid(report.nodeid)
+        if cls != "TestSlow":
+            continue
+        new_results[year][day][part] = report.duration
+
+    path = Path(__file__).parent.parent / "durations.json"
+    results = _load_durations(path)
+    results.update(new_results)
+    path.write_text(json.dumps(results, indent=4, sort_keys=True), encoding="utf8")

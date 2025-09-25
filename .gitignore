@@ -1,4 +1,6 @@
 *.txt
 .DS_Store
 .coverage
+.vscode
 __pycache__/
+:wq
