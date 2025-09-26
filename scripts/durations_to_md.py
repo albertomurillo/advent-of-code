@@ -6,22 +6,30 @@ from pathlib import Path
 
 def generate_durations_md(durations_json: Path, durations_md: Path) -> None:
     data = json.loads(durations_json.read_text(encoding="utf8"))
-    sorted_years = sorted(data.keys(), key=lambda s: int(s), reverse=True)
+    lines: list[str] = ["# Durations by year", ""]
 
-    out: list[str] = ["# Durations by year\n\n"]
-    for year in sorted_years:
-        out.append(f"## {year}\n\n")
-        out.append("| Day | Part | Duration (ms) |\n|---:|---:|---:|\n")
-        days = data[year]
-        for day in sorted(days, key=lambda s: int(s), reverse=True):
-            parts = days[day]
-            for part in sorted(parts, key=lambda s: int(s), reverse=True):
-                ms = float(parts[part]) * 1000.0
-                out.append(f"| {day} | {part} | {ms:.3f} |\n")
-        out.append("\n")
+    for year, days in sorted(data.items(), reverse=True):
+        lines.append(f"## {year}")
+        lines.append("")
+        lines.append("| Day | Part 1 (ms) | Part 2 (ms) |")
+        lines.append("|---:|---:|---:|")
 
-    md = "".join(out)
-    durations_md.write_text(md, encoding="utf8")
+        for day, parts in sorted(days.items(), reverse=True):
+            day_md = f"[{day}](https://adventofcode.com/{year}/day/{int(day)})"
+            p1 = _fmt_part(parts.get("1"), year, day)
+            p2 = _fmt_part(parts.get("2"), year, day)
+            lines.append(f"| {day_md} | {p1} | {p2} |")
+        lines.append("")
+
+    durations_md.write_text("\n".join(lines), encoding="utf8")
+
+
+def _fmt_part(duration: float | None, year: str, day: str) -> str:
+    if duration is None:
+        return "-"
+    ms = duration * 1000.0
+    solution_path = f"src/aoc/_{year}/day{int(day)}.py"
+    return f"[{ms:.3f} ms]({solution_path})"
 
 
 if __name__ == "__main__":
