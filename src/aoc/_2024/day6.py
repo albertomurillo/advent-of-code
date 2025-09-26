@@ -1,7 +1,7 @@
 import sys
 from functools import cached_property
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Grid, GridPoint, N
 
 
@@ -34,13 +34,13 @@ class Lab(Grid):
 
 
 def part1(data: str) -> int:
-    lab = Lab(as_matrix(data))
+    lab = Lab(as_table(data))
     visited, _ = lab.patrol()
     return len(visited)
 
 
 def part2(data: str) -> int:
-    lab = Lab(as_matrix(data))
+    lab = Lab(as_table(data))
     visited, _ = lab.patrol()
     visited.remove(lab.start)
 

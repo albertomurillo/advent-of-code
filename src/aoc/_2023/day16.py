@@ -1,7 +1,7 @@
 import sys
 from collections import defaultdict
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Direction, E, Grid, GridPoint, N, S, W
 
 
@@ -39,12 +39,12 @@ class Contraption(Grid):
 
 
 def part1(data: str) -> int:
-    contraption = Contraption(as_matrix(data))
+    contraption = Contraption(as_table(data))
     return contraption.energized(GridPoint(0, 0), E)
 
 
 def part2(data: str) -> int:
-    contraption = Contraption(as_matrix(data))
+    contraption = Contraption(as_table(data))
 
     result = 0
 

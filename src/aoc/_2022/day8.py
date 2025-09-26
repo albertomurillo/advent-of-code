@@ -11,45 +11,55 @@ class Forest(Grid):
 
     def viewing_distance(self, tree: GridPoint, direction: Direction) -> int:
         score = 0
-        tree_h = int(self[tree])
+        tree_h = self[tree]
         next_tree = tree.step(direction)
         while next_tree in self:
-            h = int(self[next_tree])
+            h = self[next_tree]
             score += 1
             if h >= tree_h:
                 return score
             next_tree = next_tree.step(direction)
         return score
 
-    def visible(self, tree: GridPoint, direction: Direction) -> set[GridPoint]:
+    def visible(
+        self, tree: GridPoint, direction: Direction, highest: float = math.inf
+    ) -> tuple[set[GridPoint], int]:
         trees = set()
-        shortest = -math.inf
+        highest_so_far = -math.inf
         while tree in self:
-            h = int(self[tree])
-            if h > shortest:
+            h = self[tree]
+            if h > highest_so_far:
                 trees.add(tree)
-                shortest = h
+                highest_so_far = h
+            if h == highest:
+                break
             tree = tree.step(direction)
-        return trees
+        return trees, highest_so_far
 
 
 def part1(data: str) -> int:
-    grid = Forest(Grid(as_matrix(data)))
-    trees = set()
+    grid = Forest(as_matrix(data))
+    visible_trees = set()
 
     for row in range(grid.m):
-        trees |= grid.visible(GridPoint(row, 0), E)
-        trees |= grid.visible(GridPoint(row, grid.n - 1), W)
+        trees, highest = grid.visible(GridPoint(row, 0), E)
+        visible_trees |= trees
+
+        trees, _ = grid.visible(GridPoint(row, grid.n - 1), W, highest)
+        visible_trees |= trees
 
     for col in range(grid.n):
-        trees |= grid.visible(GridPoint(0, col), S)
-        trees |= grid.visible(GridPoint(grid.m - 1, col), N)
+        trees, highest = grid.visible(GridPoint(0, col), S)
+        visible_trees |= trees
 
-    return len(trees)
+        trees, _ = grid.visible(GridPoint(grid.m - 1, col), N, highest)
+        visible_trees |= trees
+
+    return len(visible_trees)
 
 
 def part2(data: str) -> int:
-    grid = Forest(Grid(as_matrix(data)))
+    grid = Forest(as_matrix(data))
     return max(grid.scenic_score(tree) for tree, _ in grid.items())
 
 

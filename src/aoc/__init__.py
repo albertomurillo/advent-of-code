@@ -28,11 +28,15 @@ def as_graph(data: str | Grid, cmp: GridPointCmpFn | None = None) -> Graph:
 
 
 def as_grid(data: str) -> Grid:
-    return Grid(as_matrix(data))
+    return Grid(as_table(data))
 
 
-def as_matrix(data: str) -> list[list[str]]:
-    return [list(x) for x in data.splitlines()]
+def as_table(data: str) -> list[list[str]]:
+    return [list(line) for line in data.splitlines()]
+
+
+def as_matrix(data: str) -> list[list[int]]:
+    return [[int(x) for x in line] for line in data.splitlines()]
 
 
 def as_parts(data: str) -> list[str]:

@@ -6,8 +6,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
+Table = list[list[str]]
+Matrix = list[list[int]]
+
 
 class Direction(complex):
+    __slots__ = ()
+
     @property
     def left(self) -> Direction:
         return Direction(self * 1j)
@@ -31,7 +36,7 @@ SW = Direction(1, -1)
 
 
 class Grid:
-    def __init__(self, data: list[list[str]] | Grid, repeating: bool = False) -> None:
+    def __init__(self, data: Table | Matrix | Grid, repeating: bool = False) -> None:
         if isinstance(data, Grid):
             self.data = data.data
         else:

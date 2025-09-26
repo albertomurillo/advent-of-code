@@ -1,6 +1,6 @@
 import sys
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import NE, NW, SE, SW, Direction, E, Grid, GridPoint, N, S, W
 
 
@@ -26,7 +26,7 @@ def is_x_mas(point: GridPoint, grid: Grid) -> bool:
 
 
 def part1(data: str) -> int:
-    grid = Grid(as_matrix(data))
+    grid = Grid(as_table(data))
     return sum(
         is_xmas(grid, point, direction)
         for direction in (N, S, E, W, NE, NW, SE, SW)
@@ -35,7 +35,7 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    grid = Grid(as_matrix(data))
+    grid = Grid(as_table(data))
     return sum(is_x_mas(point, grid) for point in grid)
 
 

@@ -5,7 +5,7 @@ import sys
 from dataclasses import dataclass
 from functools import cached_property
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Grid, GridPoint
 
 
@@ -103,12 +103,12 @@ class Schematic(Grid):
 
 
 def part1(data: str) -> int:
-    schematic = Schematic(as_matrix(data))
+    schematic = Schematic(as_table(data))
     return sum(x.value for x in schematic.part_numbers)
 
 
 def part2(data: str) -> int:
-    schematic = Schematic(as_matrix(data))
+    schematic = Schematic(as_table(data))
     return sum(gear.ratio for gear in schematic.gears.values())
 
 

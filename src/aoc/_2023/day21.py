@@ -1,7 +1,7 @@
 import sys
 from collections import deque
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Grid, GridPoint
 
 
@@ -29,14 +29,14 @@ def bfs(grid: Grid, start: GridPoint, steps: int) -> int:
 
 
 def part1(data: str, steps: int) -> int:
-    grid = Grid(as_matrix(data))
+    grid = Grid(as_table(data))
     start = next(p for p, v in grid.items() if v == "S")
     return bfs(grid, start, steps)
 
 
 # https://www.youtube.com/watch?v=9UOMZSL0JTg
 def part2(data: str, steps: int) -> int:
-    grid = Grid(as_matrix(data))
+    grid = Grid(as_table(data))
     assert grid.m == grid.n
     assert grid.m % 2 == 1
 

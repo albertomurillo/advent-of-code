@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 from functools import cached_property
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Direction, E, Grid, GridPoint, N, S, W, shoelace
 
 
@@ -51,12 +51,12 @@ class PipeMaze(Grid):
 
 
 def part1(data: str) -> int:
-    maze = PipeMaze(as_matrix(data))
+    maze = PipeMaze(as_table(data))
     return len(maze.loop) // 2
 
 
 def part2(data: str) -> int:
-    maze = PipeMaze(as_matrix(data))
+    maze = PipeMaze(as_table(data))
 
     # https://en.wikipedia.org/wiki/Pick's_theorem
     # a = i + b/2 - 1

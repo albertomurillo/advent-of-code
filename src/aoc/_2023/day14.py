@@ -1,6 +1,6 @@
 import sys
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Grid
 
 
@@ -38,13 +38,13 @@ class Platform(Grid):
 
 
 def part1(data: str) -> int:
-    platform = Platform(as_matrix(data))
+    platform = Platform(as_table(data))
     platform.tilt_north()
     return platform.load()
 
 
 def part2(data: str) -> int:
-    platform = Platform(as_matrix(data))
+    platform = Platform(as_table(data))
     cycles = 1_000_000_000
 
     seen: dict[str, int] = {}
@@ -59,7 +59,7 @@ def part2(data: str) -> int:
 
     if len(loop) > 0:
         state = list(seen.keys())[loop.start + (cycles - loop.stop) % len(loop)]
-        platform.data = as_matrix(state)
+        platform.data = as_table(state)
 
     return platform.load()
 

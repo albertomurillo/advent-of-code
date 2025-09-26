@@ -2,7 +2,7 @@ import sys
 from collections import defaultdict
 from typing import NamedTuple
 
-from aoc import as_graph, as_matrix
+from aoc import as_graph, as_table
 from aoc.graphs import Graph
 from aoc.grids import Direction, E, Grid, GridPoint, S
 from aoc.heaps import BucketQueue
@@ -60,7 +60,7 @@ class Solution(Graph):
 
 
 def part1(data: str) -> int:
-    grid = Grid(as_matrix(data))
+    grid = Grid(as_table(data))
     start = GridPoint(0, 0)
     target = GridPoint(grid.m - 1, grid.n - 1)
 
@@ -69,7 +69,7 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    grid = Grid(as_matrix(data))
+    grid = Grid(as_table(data))
     start = GridPoint(0, 0)
     target = GridPoint(grid.m - 1, grid.n - 1)
 

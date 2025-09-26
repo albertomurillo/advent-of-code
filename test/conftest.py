@@ -53,5 +53,13 @@ def pytest_terminal_summary(
 
     path = Path(__file__).parent.parent / "durations.json"
     results = _load_durations(path)
-    results.update(new_results)
+
+    def _deep_merge(dst: dict, src: dict) -> None:
+        for k, v in src.items():
+            if k in dst and isinstance(dst[k], dict) and isinstance(v, dict):
+                _deep_merge(dst[k], v)
+            else:
+                dst[k] = v
+
+    _deep_merge(results, new_results)
     path.write_text(json.dumps(results, indent=4, sort_keys=True), encoding="utf8")

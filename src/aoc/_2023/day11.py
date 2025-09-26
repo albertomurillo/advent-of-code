@@ -1,7 +1,7 @@
 import sys
 from functools import cached_property
 
-from aoc import as_matrix
+from aoc import as_table
 from aoc.grids import Grid, GridPoint, manhattan_all_pairs
 
 
@@ -49,12 +49,12 @@ class Universe(Grid):
 
 
 def part1(data: str) -> int:
-    universe = Universe(as_matrix(data), expansion=2)
+    universe = Universe(as_table(data), expansion=2)
     return manhattan_all_pairs(universe.galaxies)
 
 
 def part2(data: str) -> int:
-    universe = Universe(as_matrix(data), expansion=1_000_000)
+    universe = Universe(as_table(data), expansion=1_000_000)
     return manhattan_all_pairs(universe.galaxies)
 
 
