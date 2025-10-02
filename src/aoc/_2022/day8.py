@@ -1,66 +1,61 @@
-import math
 import sys
+from collections.abc import Iterable
 
-from aoc import as_matrix
-from aoc.grids import Direction, E, Grid, GridPoint, N, S, W
-
-
-class Forest(Grid):
-    def scenic_score(self, tree: GridPoint) -> int:
-        return math.prod(self.viewing_distance(tree, d) for d in (N, S, E, W))
-
-    def viewing_distance(self, tree: GridPoint, direction: Direction) -> int:
-        score = 0
-        tree_h = self[tree]
-        next_tree = tree.step(direction)
-        while next_tree in self:
-            h = self[next_tree]
-            score += 1
-            if h >= tree_h:
-                return score
-            next_tree = next_tree.step(direction)
-        return score
-
-    def visible(
-        self, tree: GridPoint, direction: Direction, highest: float = math.inf
-    ) -> tuple[set[GridPoint], int]:
-        trees = set()
-        highest_so_far = -math.inf
-        while tree in self:
-            h = self[tree]
-            if h > highest_so_far:
-                trees.add(tree)
-                highest_so_far = h
-            if h == highest:
-                break
-            tree = tree.step(direction)
-        return trees, highest_so_far
+from aoc.matrix import Matrix
 
 
 def part1(data: str) -> int:
-    grid = Forest(as_matrix(data))
-    visible_trees = set()
+    trees = Matrix.from_str(data)
+    m, n = trees.shape
+    visible_trees = Matrix.zeros(m, n)
 
-    for row in range(grid.m):
-        trees, highest = grid.visible(GridPoint(row, 0), E)
-        visible_trees |= trees
+    def _scan_and_mark(coords: Iterable[tuple[int, int]]) -> None:
+        max_height = -1
+        for i, j in coords:
+            height = trees[i][j]
+            if height > max_height:
+                visible_trees[i][j] = 1
+                max_height = height
 
-        trees, _ = grid.visible(GridPoint(row, grid.n - 1), W, highest)
-        visible_trees |= trees
+    # rows: left->right, right->left
+    for j in range(n):
+        _scan_and_mark((i, j) for i in range(m))
+        _scan_and_mark((i, j) for i in reversed(range(m)))
 
-    for col in range(grid.n):
-        trees, highest = grid.visible(GridPoint(0, col), S)
-        visible_trees |= trees
+    # columns: top->down, bottom->up
+    for i in range(m):
+        _scan_and_mark((i, j) for j in range(n))
+        _scan_and_mark((i, j) for j in reversed(range(n)))
 
-        trees, _ = grid.visible(GridPoint(grid.m - 1, col), N, highest)
-        visible_trees |= trees
-
-    return len(visible_trees)
+    return sum(sum(row) for row in visible_trees)
 
 
 def part2(data: str) -> int:
-    grid = Forest(as_matrix(data))
-    return max(grid.scenic_score(tree) for tree, _ in grid.items())
+    trees = Matrix.from_str(data)
+    m, n = trees.shape
+
+    def scenic_score(i: int, j: int) -> int:
+        def viewing_distance(di: int, dj: int) -> int:
+            dist = 0
+            ii = i + di
+            jj = j + dj
+            while 0 <= ii < m and 0 <= jj < n:
+                dist += 1
+                if trees[ii][jj] >= trees[i][j]:
+                    break
+                ii += di
+                jj += dj
+            return dist
+
+        # N, S, W, E
+        return (
+            viewing_distance(-1, 0)
+            * viewing_distance(1, 0)
+            * viewing_distance(0, -1)
+            * viewing_distance(0, 1)
+        )
+
+    return max(scenic_score(i, j) for i in range(m) for j in range(n))
 
 
 def main() -> None:

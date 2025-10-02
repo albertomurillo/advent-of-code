@@ -45,13 +45,13 @@
 
 ## 2022
 
-|                                      Day |                        Part 1 (ms) |                        Part 2 (ms) |
-| ---------------------------------------: | ---------------------------------: | ---------------------------------: |
-| [8](https://adventofcode.com/2022/day/8) | [17.647 ms](src/aoc/_2022/day8.py) | [78.102 ms](src/aoc/_2022/day8.py) |
-| [7](https://adventofcode.com/2022/day/7) |  [0.479 ms](src/aoc/_2022/day7.py) |  [0.490 ms](src/aoc/_2022/day7.py) |
-| [6](https://adventofcode.com/2022/day/6) |  [0.285 ms](src/aoc/_2022/day6.py) |  [0.680 ms](src/aoc/_2022/day6.py) |
-| [5](https://adventofcode.com/2022/day/5) |  [0.469 ms](src/aoc/_2022/day5.py) |  [0.392 ms](src/aoc/_2022/day5.py) |
-| [4](https://adventofcode.com/2022/day/4) |  [1.216 ms](src/aoc/_2022/day4.py) |  [1.477 ms](src/aoc/_2022/day4.py) |
-| [3](https://adventofcode.com/2022/day/3) |  [0.474 ms](src/aoc/_2022/day3.py) |  [0.419 ms](src/aoc/_2022/day3.py) |
-| [2](https://adventofcode.com/2022/day/2) |  [0.487 ms](src/aoc/_2022/day2.py) |  [0.520 ms](src/aoc/_2022/day2.py) |
-| [1](https://adventofcode.com/2022/day/1) |  [0.343 ms](src/aoc/_2022/day1.py) |  [0.311 ms](src/aoc/_2022/day1.py) |
+|                                      Day |                       Part 1 (ms) |                        Part 2 (ms) |
+| ---------------------------------------: | --------------------------------: | ---------------------------------: |
+| [8](https://adventofcode.com/2022/day/8) | [3.887 ms](src/aoc/_2022/day8.py) | [17.786 ms](src/aoc/_2022/day8.py) |
+| [7](https://adventofcode.com/2022/day/7) | [0.479 ms](src/aoc/_2022/day7.py) |  [0.490 ms](src/aoc/_2022/day7.py) |
+| [6](https://adventofcode.com/2022/day/6) | [0.285 ms](src/aoc/_2022/day6.py) |  [0.680 ms](src/aoc/_2022/day6.py) |
+| [5](https://adventofcode.com/2022/day/5) | [0.469 ms](src/aoc/_2022/day5.py) |  [0.392 ms](src/aoc/_2022/day5.py) |
+| [4](https://adventofcode.com/2022/day/4) | [1.216 ms](src/aoc/_2022/day4.py) |  [1.477 ms](src/aoc/_2022/day4.py) |
+| [3](https://adventofcode.com/2022/day/3) | [0.474 ms](src/aoc/_2022/day3.py) |  [0.419 ms](src/aoc/_2022/day3.py) |
+| [2](https://adventofcode.com/2022/day/2) | [0.487 ms](src/aoc/_2022/day2.py) |  [0.520 ms](src/aoc/_2022/day2.py) |
+| [1](https://adventofcode.com/2022/day/1) | [0.343 ms](src/aoc/_2022/day1.py) |  [0.311 ms](src/aoc/_2022/day1.py) |
