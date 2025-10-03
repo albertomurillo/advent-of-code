@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 type Direction = tuple[int, int]
+type Coord = tuple[int, int]
 
 N: Direction = (-1, 0)
 S: Direction = (1, 0)

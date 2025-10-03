@@ -1,7 +1,7 @@
 import sys
 from collections.abc import Iterable
 
-from aoc.matrix import E, Matrix, N, S, W
+from aoc.matrix import Coord, E, Matrix, N, S, W
 
 
 def part1(data: str) -> int:
@@ -12,7 +12,7 @@ def part1(data: str) -> int:
     visible_trees = Matrix()
     visible_trees.from_zeros(m, n)
 
-    def _scan_and_mark(coords: Iterable[tuple[int, int]]) -> None:
+    def _scan_and_mark(coords: Iterable[Coord]) -> None:
         max_height = -1
         for i, j in coords:
             height = trees[i][j]
@@ -51,7 +51,6 @@ def part2(data: str) -> int:
                 jj += dj
             return dist
 
-        # N, S, W, E
         return (
             viewing_distance(*N)
             * viewing_distance(*W)
