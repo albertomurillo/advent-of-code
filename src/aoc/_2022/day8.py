@@ -1,13 +1,16 @@
 import sys
 from collections.abc import Iterable
 
-from aoc.matrix import Matrix
+from aoc.matrix import E, Matrix, N, S, W
 
 
 def part1(data: str) -> int:
-    trees = Matrix.from_str(data)
+    trees = Matrix()
+    trees.from_str(data)
     m, n = trees.shape
-    visible_trees = Matrix.zeros(m, n)
+
+    visible_trees = Matrix()
+    visible_trees.from_zeros(m, n)
 
     def _scan_and_mark(coords: Iterable[tuple[int, int]]) -> None:
         max_height = -1
@@ -31,7 +34,8 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    trees = Matrix.from_str(data)
+    trees = Matrix()
+    trees.from_str(data)
     m, n = trees.shape
 
     def scenic_score(i: int, j: int) -> int:
@@ -49,10 +53,10 @@ def part2(data: str) -> int:
 
         # N, S, W, E
         return (
-            viewing_distance(-1, 0)
-            * viewing_distance(1, 0)
-            * viewing_distance(0, -1)
-            * viewing_distance(0, 1)
+            viewing_distance(*N)
+            * viewing_distance(*W)
+            * viewing_distance(*S)
+            * viewing_distance(*E)
         )
 
     return max(scenic_score(i, j) for i in range(m) for j in range(n))

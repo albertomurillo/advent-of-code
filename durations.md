@@ -25,7 +25,7 @@
 | [20](https://adventofcode.com/2023/day/20) |  [24.361 ms](src/aoc/_2023/day20.py) |                                     - |
 | [19](https://adventofcode.com/2023/day/19) |   [2.520 ms](src/aoc/_2023/day19.py) |    [7.893 ms](src/aoc/_2023/day19.py) |
 | [18](https://adventofcode.com/2023/day/18) |   [1.105 ms](src/aoc/_2023/day18.py) |    [0.999 ms](src/aoc/_2023/day18.py) |
-| [17](https://adventofcode.com/2023/day/17) | [665.361 ms](src/aoc/_2023/day17.py) | [1696.966 ms](src/aoc/_2023/day17.py) |
+| [17](https://adventofcode.com/2023/day/17) | [241.397 ms](src/aoc/_2023/day17.py) |  [572.261 ms](src/aoc/_2023/day17.py) |
 | [16](https://adventofcode.com/2023/day/16) |  [20.653 ms](src/aoc/_2023/day16.py) | [3733.895 ms](src/aoc/_2023/day16.py) |
 | [15](https://adventofcode.com/2023/day/15) |   [2.267 ms](src/aoc/_2023/day15.py) |    [2.847 ms](src/aoc/_2023/day15.py) |
 | [14](https://adventofcode.com/2023/day/14) |   [1.411 ms](src/aoc/_2023/day14.py) |  [372.135 ms](src/aoc/_2023/day14.py) |
@@ -47,7 +47,7 @@
 
 |                                      Day |                       Part 1 (ms) |                        Part 2 (ms) |
 | ---------------------------------------: | --------------------------------: | ---------------------------------: |
-| [8](https://adventofcode.com/2022/day/8) | [3.887 ms](src/aoc/_2022/day8.py) | [17.786 ms](src/aoc/_2022/day8.py) |
+| [8](https://adventofcode.com/2022/day/8) | [4.139 ms](src/aoc/_2022/day8.py) | [17.983 ms](src/aoc/_2022/day8.py) |
 | [7](https://adventofcode.com/2022/day/7) | [0.479 ms](src/aoc/_2022/day7.py) |  [0.490 ms](src/aoc/_2022/day7.py) |
 | [6](https://adventofcode.com/2022/day/6) | [0.285 ms](src/aoc/_2022/day6.py) |  [0.680 ms](src/aoc/_2022/day6.py) |
 | [5](https://adventofcode.com/2022/day/5) | [0.469 ms](src/aoc/_2022/day5.py) |  [0.392 ms](src/aoc/_2022/day5.py) |

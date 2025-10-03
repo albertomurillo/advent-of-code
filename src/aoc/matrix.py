@@ -1,17 +1,22 @@
 from __future__ import annotations
 
+type Direction = tuple[int, int]
+
+N: Direction = (-1, 0)
+S: Direction = (1, 0)
+E: Direction = (0, 1)
+W: Direction = (0, -1)
+
 
 class Matrix:
-    def __init__(self, data: list[list[int]]) -> None:
-        self.data = data
+    def __init__(self, data: list[list[int]] | None = None) -> None:
+        self.data = data if data else []
 
-    @staticmethod
-    def from_str(data: str) -> Matrix:
-        return Matrix([[int(x) for x in line] for line in data.splitlines()])
+    def from_str(self, data: str) -> None:
+        self.data = [[int(x) for x in line] for line in data.splitlines()]
 
-    @staticmethod
-    def zeros(m: int, n: int = 0) -> Matrix:
-        return Matrix([[0 for _ in range(m)] for _ in range(n)])
+    def from_zeros(self, m: int, n: int = 0) -> Matrix:
+        self.data = [[0 for _ in range(m)] for _ in range(n)]
 
     @property
     def shape(self) -> tuple[int, int]:

@@ -1,80 +1,78 @@
 import sys
 from collections import defaultdict
-from typing import NamedTuple
 
-from aoc import as_graph, as_table
-from aoc.graphs import Graph
-from aoc.grids import Direction, E, Grid, GridPoint, S
 from aoc.heaps import BucketQueue
+from aoc.matrix import E, Matrix, N, S, W
 
 
-class State(NamedTuple):
-    e1: GridPoint
-    direction: Direction
-    steps: int
+class Solution(Matrix):
+    def dijkstra(self, min_steps: int, max_steps: int) -> int:
+        start = (0, 0)
+        target = (self.m - 1, self.n - 1)
+        dirs = [N, E, S, W]
 
-
-class Solution(Graph):
-    def dijkstra(
-        self, start: GridPoint, stop: GridPoint, min_steps: int, max_steps: int
-    ) -> int:
-        s: State
+        # BucketQueue of cost -> entries
         q = BucketQueue()
-        q.push(0, State(start, E, 0))
-        q.push(0, State(start, S, 0))
-        visited = set()
+
+        # start with E and S as initial facing directions
+        q.push(0, (start[0], start[1], 1, 0))
+        q.push(0, (start[0], start[1], 2, 0))
+
+        # set[tuple[i, j, dir_idx, steps]]
+        visited: set[tuple[int, int, int, int]] = set()
         h = defaultdict(dict)
 
         while q:
-            cost, s = q.pop()
-            if s in visited:
+            cost, state = q.pop()
+            if state in visited:
                 continue
-            visited.add(s)
+            visited.add(state)
+            i, j, dir_idx, steps = state
 
-            if s.steps >= min_steps and s.e1 == stop:
+            if steps >= min_steps and (i, j) == target:
                 return cost
 
-            if s.steps < min_steps and s.e1 == stop:
+            if steps < min_steps and (i, j) == target:
                 continue
 
             # http://clb.confined.space/aoc2023/#day17opt
-            if s.steps >= min_steps:
-                prev_steps = h[s.e1].get(s.direction, max_steps + 1)
-                if s.steps > prev_steps:
+            if steps >= min_steps:
+                prev_steps = h[(i, j)].get(dir_idx, max_steps + 1)
+                if steps > prev_steps:
                     continue
-                h[s.e1][s.direction] = min(s.steps, prev_steps)
+                h[(i, j)][dir_idx] = min(steps, prev_steps)
 
-            for d in (s.direction.left, s.direction.right, s.direction):
-                e2 = s.e1.step(d)
-                w = self.edges[s.e1].get(e2, None)
-                if (
-                    (w is None)
-                    or (s.steps < min_steps and d != s.direction)
-                    or (s.steps >= max_steps and d == s.direction)
+            # consider left, right, straight
+            for turn in (-1, 1, 0):
+                ndir_idx = (dir_idx + turn) % 4
+                di, dj = dirs[ndir_idx]
+                ni, nj = i + di, j + dj
+                # check bounds
+                if not (0 <= ni < self.m and 0 <= nj < self.n):
+                    continue
+                w = self.data[ni][nj]
+                # enforce constraints
+                if (steps < min_steps and turn != 0) or (
+                    steps >= max_steps and turn == 0
                 ):
                     continue
 
-                q.push(cost + w, State(e2, d, 1 if d != s.direction else s.steps + 1))
+                nsteps = 1 if turn != 0 else steps + 1
+                q.push(cost + w, (ni, nj, ndir_idx, nsteps))
 
         return -1
 
 
 def part1(data: str) -> int:
-    grid = Grid(as_table(data))
-    start = GridPoint(0, 0)
-    target = GridPoint(grid.m - 1, grid.n - 1)
-
-    graph = Solution(as_graph(grid))
-    return graph.dijkstra(start, target, 0, 3)
+    grid = Solution()
+    grid.from_str(data)
+    return grid.dijkstra(0, 3)
 
 
 def part2(data: str) -> int:
-    grid = Grid(as_table(data))
-    start = GridPoint(0, 0)
-    target = GridPoint(grid.m - 1, grid.n - 1)
-
-    graph = Solution(as_graph(grid))
-    return graph.dijkstra(start, target, 4, 10)
+    grid = Solution()
+    grid.from_str(data)
+    return grid.dijkstra(4, 10)
 
 
 def main() -> None:
