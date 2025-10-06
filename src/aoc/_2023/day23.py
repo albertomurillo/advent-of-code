@@ -32,9 +32,10 @@ def part1(data: str) -> int:
 
     max_steps = 0
 
-    q = deque([(si, sj, 0, set())])
+    # Find the longest path DFS
+    q = [(si, sj, 0, set())]
     while q:
-        i, j, steps, visited = q.popleft()
+        i, j, steps, visited = q.pop()
         cell = grid[i][j]
         visited.add((i, j))
 
@@ -81,7 +82,7 @@ def part2(data: str) -> int:
     start = (0, 1)
     end = (m - 1, n - 2)
 
-    # Build the graph
+    # Build the graph BFS
     graph = defaultdict(dict)
 
     def in_path(p: Point) -> bool:
@@ -126,11 +127,11 @@ def part2(data: str) -> int:
                 continue
             q.append((e1, next_, curr, steps + 1))
 
-    # Find the longest path
+    # Find the longest path DFS
     max_steps = 0
-    q = deque([(end, 0, set())])
+    q = [(end, 0, set())]
     while q:
-        e1, steps, visited = q.popleft()
+        e1, steps, visited = q.pop()
         visited.add(e1)
 
         if e1 == start:
