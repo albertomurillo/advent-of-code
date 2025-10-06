@@ -36,5 +36,5 @@ def _fmt_part(duration: float | None, year: str, day: str) -> str:
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
     durations = root / "durations.json"
-    md = root / "durations.md"
+    md = root / "README.md"
     generate_durations_md(durations, md)

@@ -2,7 +2,7 @@ import inspect
 
 import pytest
 
-from aoc._2023.day20 import part1
+from aoc._2023.day20 import part1, part2
 from test import read_input
 
 data = inspect.cleandoc(
@@ -25,3 +25,6 @@ class TestFast:
 class TestSlow:
     def test_part1(self) -> None:
         assert part1(read_input(2023, 20)) == 739960225
+
+    def test_part2(self) -> None:
+        assert part2(read_input(2023, 20)) == 231897990075517
