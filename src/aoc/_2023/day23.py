@@ -127,22 +127,23 @@ def part2(data: str) -> int:
                 continue
             q.append((e1, next_, curr, steps + 1))
 
-    # Find the longest path DFS
+    visited = set()
     max_steps = 0
-    q = [(end, 0, set())]
-    while q:
-        e1, steps, visited = q.pop()
-        visited.add(e1)
 
+    def dfs(e1: Edge, steps: int):
+        nonlocal visited, max_steps
         if e1 == start:
             max_steps = max(max_steps, steps)
-            continue
+            return
 
+        visited.add(e1)
         for e2, weight in graph[e1].items():
             if e2 in visited:
                 continue
-            q.append((e2, steps + weight, set(visited)))
+            dfs(e2, steps + weight)
+        visited.remove(e1)
 
+    dfs(end, 0)
     return max_steps
 
 

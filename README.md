@@ -20,7 +20,7 @@
 
 |                                        Day |                          Part 1 (ms) |                            Part 2 (ms) |
 | -----------------------------------------: | -----------------------------------: | -------------------------------------: |
-| [23](https://adventofcode.com/2023/day/23) | [145.996 ms](src/aoc/_2023/day23.py) | [16075.472 ms](src/aoc/_2023/day23.py) |
+| [23](https://adventofcode.com/2023/day/23) | [146.625 ms](src/aoc/_2023/day23.py) | [10146.390 ms](src/aoc/_2023/day23.py) |
 | [22](https://adventofcode.com/2023/day/22) | [463.677 ms](src/aoc/_2023/day22.py) |  [1300.843 ms](src/aoc/_2023/day22.py) |
 | [21](https://adventofcode.com/2023/day/21) |  [19.168 ms](src/aoc/_2023/day21.py) |   [412.608 ms](src/aoc/_2023/day21.py) |
 | [20](https://adventofcode.com/2023/day/20) |  [37.994 ms](src/aoc/_2023/day20.py) |   [145.746 ms](src/aoc/_2023/day20.py) |
