@@ -4,16 +4,21 @@ version = "0.1.0"
 description = "Advent of Code Solutions"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["matplotlib>=3.10.6", "more-itertools>=10.8.0", "networkx>=3.5"]
+dependencies = [
+    "matplotlib>=3.10.7",
+    "more-itertools>=10.8.0",
+    "networkx>=3.5",
+    "sympy>=1.14.0",
+]
 
 [dependency-groups]
 dev = [
-    "pylint>=3.3.8",
-    "pyright>=1.1.405",
+    "pylint>=3.3.9",
+    "pyright>=1.1.406",
     "pytest>=8.4.2",
     "pytest-cov>=7.0.0",
     "pytest-xdist>=3.8.0",
-    "ruff>=0.13.1",
+    "ruff>=0.14.0",
 ]
 
 [build-system]
