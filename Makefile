@@ -1,5 +1,9 @@
 all: format lint test
 
+readme:
+	uv run ./scripts/durations_to_md.py
+	prettier -w README.md
+
 format: deps
 	uv run ruff check --select I --fix
 	uv run ruff format
