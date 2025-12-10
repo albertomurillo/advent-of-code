@@ -104,6 +104,10 @@ class GridPoint(complex):
         return [self.nw, self.sw, self.ne, self.se]
 
     @property
+    def all_neighbors(self) -> list[GridPoint]:
+        return self.neighbors + self.x_neighbors
+
+    @property
     def n(self) -> GridPoint:
         return self.step(N)
 
