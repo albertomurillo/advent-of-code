@@ -35,6 +35,9 @@ class Range:
 
         return (before, inter, after)
 
+    def merge(self, other: Range) -> Range:
+        return Range(min(self.start, other.start), max(self.stop, other.stop))
+
     def offset(self, item: int) -> int:
         return item - self.start
 
@@ -46,3 +49,15 @@ class Range:
 
     def __len__(self) -> int:
         return self.stop - self.start
+
+
+def merge_ranges(ranges: list[Range]) -> list[Range]:
+    ranges.sort()
+    merged = [ranges[0]]
+    for r in ranges[1:]:
+        last = merged[-1]
+        if last.overlaps(r) or last.stop == r.start:
+            merged[-1] = last.merge(r)
+        else:
+            merged.append(r)
+    return merged

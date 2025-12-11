@@ -4,6 +4,7 @@
 
 |                                      Day |                        Part 1 (ms) |                         Part 2 (ms) |
 | ---------------------------------------: | ---------------------------------: | ----------------------------------: |
+| [5](https://adventofcode.com/2025/day/5) |  [5.642 ms](src/aoc/_2025/day5.py) |   [0.511 ms](src/aoc/_2025/day5.py) |
 | [4](https://adventofcode.com/2025/day/4) | [33.139 ms](src/aoc/_2025/day4.py) | [607.903 ms](src/aoc/_2025/day4.py) |
 | [3](https://adventofcode.com/2025/day/3) |  [2.610 ms](src/aoc/_2025/day3.py) |   [2.301 ms](src/aoc/_2025/day3.py) |
 | [2](https://adventofcode.com/2025/day/2) |  [2.558 ms](src/aoc/_2025/day2.py) |   [2.710 ms](src/aoc/_2025/day2.py) |
